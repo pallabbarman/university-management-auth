@@ -1,0 +1,16 @@
+{
+    "[typescript]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": null
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": null
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.tslint": true,
+        "source.organizeImports": true
+    }
+}
