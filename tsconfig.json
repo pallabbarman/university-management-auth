@@ -6,7 +6,16 @@
         "outDir": "dist",
         "rootDir": "src",
         "esModuleInterop": true,
-        "strict": true
+        "strict": true,
+        "baseUrl": "./src",
+        "paths": {
+            "configs/*": ["configs/*"],
+            "controllers/*": ["controllers/*"],
+            "models/*": ["models/*"],
+            "routes/*": ["routes/*"],
+            "services/*": ["services/*"],
+            "types/*": ["types/*"]
+        }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]
