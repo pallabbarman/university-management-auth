@@ -14,6 +14,7 @@
             "models/*": ["models/*"],
             "routes/*": ["routes/*"],
             "services/*": ["services/*"],
+            "shared/*": ["shared/*"],
             "types/*": ["types/*"],
             "utils/*": ["utils/*"]
         }
