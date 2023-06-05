@@ -1,15 +1,20 @@
 import { Error } from 'mongoose';
+import { IGenericErrorResponse } from 'types/common';
 import { IGenericErrorMessage } from 'types/errors';
 
-const handleValidationError = (error: Error.ValidationError) => {
-    const errors: IGenericErrorMessage[] = Object.values(error.errors).map((elem) => ({
-        path: elem?.path,
-        message: elem?.message,
+const handleValidationError = (error: Error.ValidationError): IGenericErrorResponse => {
+    const errors: IGenericErrorMessage[] = Object.values(error.errors).map((ele) => ({
+        path: ele?.path,
+        message: ele?.message,
     }));
 
     const statusCode = 400;
 
-    return {};
+    return {
+        statusCode,
+        message: 'Validation Error',
+        errorMessage: errors,
+    };
 };
 
 export default handleValidationError;

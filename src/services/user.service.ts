@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
-import User from 'models/users.model';
+import User from 'models/user.model';
 import { IUser } from 'types/user';
-import { generateUserId } from 'utils/users.utils';
+import { generateUserId } from 'utils/user.utils';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createUser = async (user: IUser): Promise<IUser | null> => {

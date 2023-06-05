@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 import { Schema, model } from 'mongoose';
-import { IUser } from 'types/user';
+import { IUser, UserModel } from 'types/user';
 
 const userSchema = new Schema<IUser>(
     {
@@ -23,6 +23,6 @@ const userSchema = new Schema<IUser>(
     }
 );
 
-const User = model<IUser>('User', userSchema);
+const User = model<IUser, UserModel>('User', userSchema);
 
 export default User;
