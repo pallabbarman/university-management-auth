@@ -15,7 +15,7 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
         ? console.log('globalErrorHandler ~', err)
         : errorLogger.error('globalErrorHandler ~', err);
 
-    if (err?.name === 'validationError') {
+    if (err?.name === 'ValidationError') {
         const error = handleValidationError(err);
         statusCode = error.statusCode;
         message = error.message;
@@ -43,7 +43,7 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
             : [];
     }
 
-    res.send(statusCode).json({
+    res.status(statusCode).json({
         success: false,
         message,
         errorMessages,
