@@ -1,7 +1,6 @@
 /* eslint-disable comma-dangle */
 import { Error } from 'mongoose';
-import { IGenericErrorResponse } from 'types/common';
-import { IGenericErrorMessage } from 'types/errors';
+import { IGenericErrorMessage, IGenericErrorResponse } from 'types/errors';
 
 const handleValidationError = (error: Error.ValidationError): IGenericErrorResponse => {
     const errors: IGenericErrorMessage[] = Object.values(error.errors).map(
