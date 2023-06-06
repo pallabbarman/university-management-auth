@@ -11,6 +11,7 @@
         "paths": {
             "configs/*": ["configs/*"],
             "controllers/*": ["controllers/*"],
+            "errors/*": ["errors/*"],
             "models/*": ["models/*"],
             "routes/*": ["routes/*"],
             "services/*": ["services/*"],
