@@ -1,9 +1,11 @@
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import handleValidationError from 'errors/handleValidationError';
+import handleZodError from 'errors/handleZodError';
 import { ErrorRequestHandler } from 'express';
 import { errorLogger } from 'shared/logger';
 import { IGenericErrorMessage } from 'types/errors';
+import { ZodError } from 'zod';
 
 const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
     let statusCode = 500;
@@ -31,6 +33,11 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
                   },
               ]
             : [];
+    } else if (err instanceof ZodError) {
+        const error = handleZodError(err);
+        statusCode = error.statusCode;
+        message = error.message;
+        errorMessages = error.errorMessage;
     } else if (err instanceof Error) {
         message = err?.message;
         errorMessages = err?.message
