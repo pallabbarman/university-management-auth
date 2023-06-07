@@ -24,6 +24,11 @@
             "date": 1686025222187,
             "name": "D:\\Pallab\\university-management\\logs\\winston\\errors\\error-2023-06-06-10.log",
             "hash": "d6078bf836a656fc202ff1fc96b4ff8dd9745125fc2954214cb46067900fc2cf"
+        },
+        {
+            "date": 1686111060145,
+            "name": "D:\\Pallab\\university-management\\logs\\winston\\errors\\error-2023-06-07-10.log",
+            "hash": "c506b7b1973bc0eb8ba13b4996d6cd09aa1de52ec8110004907cd4180e4d5a86"
         }
     ],
     "hashType": "sha256"

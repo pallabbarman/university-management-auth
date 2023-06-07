@@ -14,10 +14,14 @@ export type SemesterMonths =
     | 'November'
     | 'December';
 
+export type SemesterTitles = 'Autumn' | 'Summer' | 'Fall';
+
+export type SemesterCodes = '01' | '02' | '03';
+
 export interface ISemester {
-    title: 'Autumn' | 'Summer' | 'Fall';
+    title: SemesterTitles;
     year: number;
-    code: '01' | '02' | '03';
+    code: SemesterCodes;
     startMonth: SemesterMonths;
     endMonth: SemesterMonths;
 }

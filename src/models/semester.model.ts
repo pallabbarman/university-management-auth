@@ -1,5 +1,6 @@
 /* eslint-disable comma-dangle */
 import { Schema, model } from 'mongoose';
+import { semesterCodes, semesterMonths, semesterTitles } from 'shared/semester.constant';
 import { ISemester, SemesterModel } from 'types/semester';
 
 const semesterSchema = new Schema<ISemester>(
@@ -7,7 +8,7 @@ const semesterSchema = new Schema<ISemester>(
         title: {
             type: String,
             required: true,
-            enum: ['Autumn', 'Summer', 'Fall'],
+            enum: semesterTitles,
         },
         year: {
             type: Number,
@@ -16,15 +17,17 @@ const semesterSchema = new Schema<ISemester>(
         code: {
             type: String,
             required: true,
-            enum: ['01', '02', '03'],
+            enum: semesterCodes,
         },
         startMonth: {
             type: String,
             required: true,
+            enum: semesterMonths,
         },
         endMonth: {
             type: String,
             required: true,
+            enum: semesterMonths,
         },
     },
     {
