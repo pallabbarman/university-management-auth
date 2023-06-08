@@ -1,4 +1,5 @@
 /* eslint-disable comma-dangle */
+import httpStatus from 'http-status';
 import { Error } from 'mongoose';
 import { IGenericErrorMessage, IGenericErrorResponse } from 'types/errors';
 
@@ -10,7 +11,7 @@ const handleValidationError = (error: Error.ValidationError): IGenericErrorRespo
         })
     );
 
-    const statusCode = 400;
+    const statusCode = httpStatus.BAD_REQUEST;
 
     return {
         statusCode,

@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import { IGenericErrorMessage, IGenericErrorResponse } from 'types/errors';
 import { ZodError, ZodIssue } from 'zod';
 
@@ -7,7 +8,7 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
         message: issue?.message,
     }));
 
-    const statusCode = 400;
+    const statusCode = httpStatus.BAD_REQUEST;
 
     return {
         statusCode,

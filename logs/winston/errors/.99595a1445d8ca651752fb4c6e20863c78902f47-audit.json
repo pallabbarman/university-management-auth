@@ -29,6 +29,16 @@
             "date": 1686111060145,
             "name": "D:\\Pallab\\university-management\\logs\\winston\\errors\\error-2023-06-07-10.log",
             "hash": "c506b7b1973bc0eb8ba13b4996d6cd09aa1de52ec8110004907cd4180e4d5a86"
+        },
+        {
+            "date": 1686117843573,
+            "name": "D:\\Pallab\\university-management\\logs\\winston\\errors\\error-2023-06-07-12.log",
+            "hash": "798202ccbdcdd5f8ee819bf058f5ce61b65a5197b94848cdb075ad81f65f233b"
+        },
+        {
+            "date": 1686121208031,
+            "name": "D:\\Pallab\\university-management\\logs\\winston\\errors\\error-2023-06-07-13.log",
+            "hash": "aaebbec0ff76a668c3779669983007e996763745c7cb502b51e89a87fdb5f25f"
         }
     ],
     "hashType": "sha256"

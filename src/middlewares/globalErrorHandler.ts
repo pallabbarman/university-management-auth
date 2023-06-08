@@ -8,17 +8,22 @@ import { IGenericErrorMessage } from 'types/errors';
 import { ZodError } from 'zod';
 
 const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
-    let statusCode = 500;
-    let message = 'Internal server error!';
-    let errorMessages: IGenericErrorMessage[] = [];
-
     // eslint-disable-next-line no-unused-expressions
     envConfig.env === 'development'
         ? console.log('globalErrorHandler ~', err)
         : errorLogger.error('globalErrorHandler ~', err);
 
+    let statusCode = 500;
+    let message = 'Internal server error!';
+    let errorMessages: IGenericErrorMessage[] = [];
+
     if (err?.name === 'ValidationError') {
         const error = handleValidationError(err);
+        statusCode = error.statusCode;
+        message = error.message;
+        errorMessages = error.errorMessage;
+    } else if (err instanceof ZodError) {
+        const error = handleZodError(err);
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
@@ -33,11 +38,6 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
                   },
               ]
             : [];
-    } else if (err instanceof ZodError) {
-        const error = handleZodError(err);
-        statusCode = error.statusCode;
-        message = error.message;
-        errorMessages = error.errorMessage;
     } else if (err instanceof Error) {
         message = err?.message;
         errorMessages = err?.message

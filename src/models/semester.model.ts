@@ -1,4 +1,8 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable func-names */
 /* eslint-disable comma-dangle */
+import ApiError from 'errors/apiError';
+import httpStatus from 'http-status';
 import { Schema, model } from 'mongoose';
 import { semesterCodes, semesterMonths, semesterTitles } from 'shared/semester.constant';
 import { ISemester, SemesterModel } from 'types/semester';
@@ -34,6 +38,17 @@ const semesterSchema = new Schema<ISemester>(
         timestamps: true,
     }
 );
+
+// handling same year and same semester issue
+semesterSchema.pre('save', async function (next) {
+    const isExist = await Semester.findOne({ title: this.title, year: this.year });
+
+    if (isExist) {
+        throw new ApiError(httpStatus.CONFLICT, 'Semester is already exist!');
+    }
+
+    next();
+});
 
 const Semester = model<ISemester, SemesterModel>('Semester', semesterSchema);
 

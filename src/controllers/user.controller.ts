@@ -1,17 +1,20 @@
-import { RequestHandler } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import { createUser } from 'services/user.service';
+import catchAsync from 'shared/catchAsync';
+import sendResponse from 'shared/sendResponse';
 
 // eslint-disable-next-line import/prefer-default-export
-export const newUser: RequestHandler = async (req, res, next) => {
-    try {
-        const { user } = req.body;
-        const result = await createUser(user);
-        res.status(200).json({
-            success: true,
-            message: 'User created successfully!',
-            data: result,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+export const newUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { user } = req.body;
+    const result = await createUser(user);
+
+    next();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User created successfully!',
+        data: result,
+    });
+});
