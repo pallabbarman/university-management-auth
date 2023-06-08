@@ -1,7 +1,7 @@
 /* eslint-disable comma-dangle */
+import httpStatus from 'http-status';
 import { Error } from 'mongoose';
-import { IGenericErrorResponse } from 'types/common';
-import { IGenericErrorMessage } from 'types/errors';
+import { IGenericErrorMessage, IGenericErrorResponse } from 'types/errors';
 
 const handleValidationError = (error: Error.ValidationError): IGenericErrorResponse => {
     const errors: IGenericErrorMessage[] = Object.values(error.errors).map(
@@ -11,7 +11,7 @@ const handleValidationError = (error: Error.ValidationError): IGenericErrorRespo
         })
     );
 
-    const statusCode = 400;
+    const statusCode = httpStatus.BAD_REQUEST;
 
     return {
         statusCode,
