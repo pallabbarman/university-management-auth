@@ -20,10 +20,14 @@ export type SemesterCodes = '01' | '02' | '03';
 
 export interface ISemester {
     title: SemesterTitles;
-    year: number;
+    year: string;
     code: SemesterCodes;
     startMonth: SemesterMonths;
     endMonth: SemesterMonths;
 }
 
 export type SemesterModel = Model<ISemester>;
+
+export type SemesterFilters = {
+    searchTerm?: string;
+};
