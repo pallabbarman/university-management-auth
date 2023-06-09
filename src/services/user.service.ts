@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
+import httpStatus from 'http-status';
 import User from 'models/user.model';
 import { IUser } from 'types/user';
 import { generateUserId } from 'utils/user.utils';
@@ -18,7 +19,7 @@ export const createUser = async (user: IUser): Promise<IUser | null> => {
     const createdUser = await User.create(user);
 
     if (!createdUser) {
-        throw new ApiError(400, 'Failed to created a new user!');
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to created a new user!');
     }
 
     return createdUser;

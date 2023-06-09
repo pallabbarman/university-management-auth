@@ -10,7 +10,7 @@ import { ZodError } from 'zod';
 const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
     // eslint-disable-next-line no-unused-expressions
     envConfig.env === 'development'
-        ? console.log('globalErrorHandler ~', err)
+        ? console.log('globalErrorHandler ~', err?.name)
         : errorLogger.error('globalErrorHandler ~', err);
 
     let statusCode = 500;
@@ -49,6 +49,8 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
               ]
             : [];
     }
+
+    console.log(statusCode);
 
     res.status(statusCode).json({
         success: false,

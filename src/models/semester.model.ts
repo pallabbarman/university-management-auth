@@ -5,7 +5,7 @@ import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import { Schema, model } from 'mongoose';
 import { semesterCodes, semesterMonths, semesterTitles } from 'shared/semester.constant';
-import { ISemester, SemesterModel } from 'types/semester';
+import { ISemester } from 'types/semester';
 
 const semesterSchema = new Schema<ISemester>(
     {
@@ -50,6 +50,6 @@ semesterSchema.pre('save', async function (next) {
     next();
 });
 
-const Semester = model<ISemester, SemesterModel>('Semester', semesterSchema);
+const Semester = model<ISemester>('Semester', semesterSchema);
 
 export default Semester;
