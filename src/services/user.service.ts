@@ -4,7 +4,7 @@ import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import User from 'models/user.model';
 import { IUser } from 'types/user';
-import { generateUserId } from 'utils/user.utils';
+import { generateUserId } from 'utils/user';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createUser = async (user: IUser): Promise<IUser | null> => {

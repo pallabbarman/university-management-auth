@@ -1,10 +1,15 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable comma-dangle */
+import { semesterTitleCodeMapper } from 'constants/semester';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import Semester from 'models/semester.model';
-import { semesterTitleCodeMapper } from 'shared/semester.constant';
+import { SortOrder } from 'mongoose';
+import { IPaginationOptions } from 'types/pagination';
+import { IGenericResponse } from 'types/response';
 import { ISemester } from 'types/semester';
+import calculatePagination from 'utils/pagination';
 
-// eslint-disable-next-line import/prefer-default-export
 export const createSemester = async (payload: ISemester): Promise<ISemester> => {
     if (semesterTitleCodeMapper[payload.title] !== payload.code) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!');
@@ -13,4 +18,29 @@ export const createSemester = async (payload: ISemester): Promise<ISemester> => 
     const result = await Semester.create(payload);
 
     return result;
+};
+
+export const allSemesters = async (
+    paginationOption: IPaginationOptions
+): Promise<IGenericResponse<ISemester[]>> => {
+    const { page, limit, skip, sortBy, sortOrder } = calculatePagination(paginationOption);
+
+    const sortCondition: { [key: string]: SortOrder } = {};
+
+    if (sortBy && sortOrder) {
+        sortCondition[sortBy] = sortOrder;
+    }
+
+    const result = await Semester.find().sort(sortCondition).skip(skip).limit(limit);
+
+    const total = await Semester.countDocuments();
+
+    return {
+        meta: {
+            page,
+            limit,
+            total,
+        },
+        data: result,
+    };
 };

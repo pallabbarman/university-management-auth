@@ -1,4 +1,4 @@
-import { semesterCodes, semesterMonths, semesterTitles } from 'shared/semester.constant';
+import { semesterCodes, semesterMonths, semesterTitles } from 'constants/semester';
 import { z } from 'zod';
 
 // eslint-disable-next-line import/prefer-default-export

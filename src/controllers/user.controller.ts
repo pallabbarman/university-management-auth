@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { createUser } from 'services/user.service';
-import catchAsync from 'shared/catchAsync';
-import sendResponse from 'shared/sendResponse';
 import { IUser } from 'types/user';
+import catchAsync from 'utils/catchAsync';
+import sendResponse from 'utils/sendResponse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const newUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

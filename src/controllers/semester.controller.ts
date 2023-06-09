@@ -1,11 +1,13 @@
+/* eslint-disable comma-dangle */
+import paginationFields from 'constants/pagination';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { createSemester } from 'services/semester.service';
-import catchAsync from 'shared/catchAsync';
-import sendResponse from 'shared/sendResponse';
+import { allSemesters, createSemester } from 'services/semester.service';
 import { ISemester } from 'types/semester';
+import catchAsync from 'utils/catchAsync';
+import pick from 'utils/pick';
+import sendResponse from 'utils/sendResponse';
 
-// eslint-disable-next-line import/prefer-default-export
 export const newSemester = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { ...semesterData } = req.body;
     const result = await createSemester(semesterData);
@@ -19,3 +21,21 @@ export const newSemester = catchAsync(async (req: Request, res: Response, next: 
 
     next();
 });
+
+export const getAllSemesters = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const paginationOption = pick(req.query, paginationFields);
+
+        const result = await allSemesters(paginationOption);
+
+        sendResponse<ISemester[]>(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'Semester is retrieved successfully!',
+            meta: result.meta,
+            data: result.data,
+        });
+
+        next();
+    }
+);

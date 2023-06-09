@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import { errorLogger, logger } from 'shared/logger';
+import { errorLogger, logger } from 'utils/logger';
 import app from './app';
 import connectDB from './configs/db.config';
 import envConfig from './configs/env.config';

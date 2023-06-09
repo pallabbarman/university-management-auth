@@ -1,5 +1,7 @@
+/* eslint-disable object-curly-newline */
 import cors from 'cors';
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import globalErrorHandlers from 'middlewares/globalErrorHandler';
 import routes from './routes';
 
@@ -19,5 +21,21 @@ app.get('/', (req: Request, res: Response) => {
 
 // global error handler
 app.use(globalErrorHandlers);
+
+// handle not found route
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.status(httpStatus.NOT_FOUND).json({
+        success: false,
+        message: 'Route not found!',
+        errorMessages: [
+            {
+                path: req.originalUrl,
+                message: 'API not found!',
+            },
+        ],
+    });
+
+    next();
+});
 
 export default app;

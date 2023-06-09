@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable comma-dangle */
+import { semesterCodes, semesterMonths, semesterTitles } from 'constants/semester';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import { Schema, model } from 'mongoose';
-import { semesterCodes, semesterMonths, semesterTitles } from 'shared/semester.constant';
 import { ISemester } from 'types/semester';
 
 const semesterSchema = new Schema<ISemester>(

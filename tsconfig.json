@@ -10,12 +10,12 @@
         "baseUrl": "./src",
         "paths": {
             "configs/*": ["configs/*"],
+            "constants/*": ["constants/*"],
             "controllers/*": ["controllers/*"],
             "errors/*": ["errors/*"],
             "models/*": ["models/*"],
             "routes/*": ["routes/*"],
             "services/*": ["services/*"],
-            "shared/*": ["shared/*"],
             "types/*": ["types/*"],
             "utils/*": ["utils/*"]
         }

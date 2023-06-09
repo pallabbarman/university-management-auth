@@ -3,14 +3,14 @@ import ApiError from 'errors/apiError';
 import handleValidationError from 'errors/handleValidationError';
 import handleZodError from 'errors/handleZodError';
 import { ErrorRequestHandler } from 'express';
-import { errorLogger } from 'shared/logger';
 import { IGenericErrorMessage } from 'types/errors';
+import { errorLogger } from 'utils/logger';
 import { ZodError } from 'zod';
 
 const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
     // eslint-disable-next-line no-unused-expressions
     envConfig.env === 'development'
-        ? console.log('globalErrorHandler ~', err?.name)
+        ? console.log('globalErrorHandler ~', err)
         : errorLogger.error('globalErrorHandler ~', err);
 
     let statusCode = 500;
@@ -49,8 +49,6 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
               ]
             : [];
     }
-
-    console.log(statusCode);
 
     res.status(statusCode).json({
         success: false,

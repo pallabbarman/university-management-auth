@@ -1,5 +1,5 @@
 import { connect, set } from 'mongoose';
-import { errorLogger, logger } from 'shared/logger';
+import { errorLogger, logger } from 'utils/logger';
 import envConfig from './env.config';
 
 const connectDB = async () => {
