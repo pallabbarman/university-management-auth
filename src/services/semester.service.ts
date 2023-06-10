@@ -55,7 +55,9 @@ export const allSemesters = async (
         sortCondition[sortBy] = sortOrder;
     }
 
-    const result = await Semester.find().sort(sortCondition).skip(skip).limit(limit);
+    const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
+
+    const result = await Semester.find(whereConditions).sort(sortCondition).skip(skip).limit(limit);
 
     const total = await Semester.countDocuments();
 
@@ -67,4 +69,10 @@ export const allSemesters = async (
         },
         data: result,
     };
+};
+
+export const singleSemester = async (id: string): Promise<ISemester | null> => {
+    const result = await Semester.findById(id);
+
+    return result;
 };

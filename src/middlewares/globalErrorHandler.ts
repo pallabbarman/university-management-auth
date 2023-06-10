@@ -1,5 +1,6 @@
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
+import handleCastError from 'errors/handleCastError';
 import handleValidationError from 'errors/handleValidationError';
 import handleZodError from 'errors/handleZodError';
 import { ErrorRequestHandler } from 'express';
@@ -22,12 +23,18 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
+    } else if (err?.name === 'CastError') {
+        const error = handleCastError(err);
+        statusCode = error.statusCode;
+        message = error.message;
+        errorMessages = error.errorMessage;
     } else if (err instanceof ZodError) {
         const error = handleZodError(err);
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
     } else if (err instanceof ApiError) {
+        res.status(400).json({ err });
         statusCode = err?.statusCode;
         message = err?.message;
         errorMessages = err?.message

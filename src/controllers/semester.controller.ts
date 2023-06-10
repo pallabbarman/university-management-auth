@@ -3,7 +3,7 @@ import paginationFields from 'constants/pagination';
 import { semesterFilterableFields } from 'constants/semester';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { allSemesters, createSemester } from 'services/semester.service';
+import { allSemesters, createSemester, singleSemester } from 'services/semester.service';
 import { ISemester } from 'types/semester';
 import catchAsync from 'utils/catchAsync';
 import pick from 'utils/pick';
@@ -33,9 +33,26 @@ export const getAllSemesters = catchAsync(
         sendResponse<ISemester[]>(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'Semester is retrieved successfully!',
+            message: 'Semesters is retrieved successfully!',
             meta: result.meta,
             data: result.data,
+        });
+
+        next();
+    }
+);
+
+export const getSingleSemester = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { id } = req.params;
+
+        const result = await singleSemester(id);
+
+        sendResponse<ISemester>(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'Semester is retrieved successfully!',
+            data: result,
         });
 
         next();
