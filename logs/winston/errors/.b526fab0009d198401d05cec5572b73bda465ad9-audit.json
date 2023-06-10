@@ -6,54 +6,14 @@
     "auditLog": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\.b526fab0009d198401d05cec5572b73bda465ad9-audit.json",
     "files": [
         {
-            "date": 1685695094292,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-02-14.log",
-            "hash": "53f947f4d79e600c7b8879dfcd95c82e5088347fa9ba3d94cdcec96f12efe8fd"
+            "date": 1686310406007,
+            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-17.log",
+            "hash": "0a59a730bfab0863949fc9626a1a64228539869d1c033f78c93caddc4901ffea"
         },
         {
-            "date": 1686066946006,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-06-21.log",
-            "hash": "89cae302495fc20c5b91893a67ea4bf8ebd4877325729714e35c72d2527d39a2"
-        },
-        {
-            "date": 1686067442819,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-06-22.log",
-            "hash": "c659afac5a870085be0864325a78c22c04e7800436b2e3caef5d48409518a107"
-        },
-        {
-            "date": 1686242795765,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-08-22.log",
-            "hash": "316584815740893b24b2be3c8770387088d15c5c797b3fde84dd856fdeb13f36"
-        },
-        {
-            "date": 1686243769608,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-08-23.log",
-            "hash": "7ddab0a9362b18ed355058a95f992513c421319e58efcb3c3999001161091c74"
-        },
-        {
-            "date": 1686293723644,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-12.log",
-            "hash": "8e8041c3757d289ddafdc392903e53b9893603c32294a5971f4384f981318209"
-        },
-        {
-            "date": 1686294019007,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-13.log",
-            "hash": "0ef49d8925979f733b130cc74c0fd66ef7ef301e3ec16d99b5f213995715b891"
-        },
-        {
-            "date": 1686297755062,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-14.log",
-            "hash": "3ba5c8104aa6023282269a14d0fb8761492912f0b8f3ba27a85fe5e20b82008e"
-        },
-        {
-            "date": 1686301212513,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-15.log",
-            "hash": "7b7e29223a058ffc3358368452502a254d7878135c9393e49410f8f9d3800493"
-        },
-        {
-            "date": 1686306964570,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-09-16.log",
-            "hash": "a68dc9e64aaf090e4ab61ebb323f4346f9da6ac06314eb09ef727dcde75e2d65"
+            "date": 1686366196720,
+            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\errors\\error-2023-06-10-09.log",
+            "hash": "672f42fc2d4096c90d2c1ff49a2a67164d092b65719cda4d849af9d9128c9112"
         }
     ],
     "hashType": "sha256"
