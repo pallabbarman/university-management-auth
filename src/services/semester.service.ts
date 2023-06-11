@@ -76,3 +76,12 @@ export const singleSemester = async (id: string): Promise<ISemester | null> => {
 
     return result;
 };
+
+export const editSemester = async (id: string, payload: Partial<ISemester>) => {
+    if (payload.title && payload.code && semesterTitleCodeMapper[payload.title] !== payload.code) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!');
+    }
+    const result = await Semester.findOneAndUpdate({ _id: id }, payload, { new: true });
+
+    return result;
+};
