@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import handleCastError from 'errors/handleCastError';
@@ -9,7 +11,6 @@ import { errorLogger } from 'utils/logger';
 import { ZodError } from 'zod';
 
 const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
-    // eslint-disable-next-line no-unused-expressions
     envConfig.env === 'development'
         ? console.log('globalErrorHandler ~', err)
         : errorLogger.error('globalErrorHandler ~', err);
@@ -62,8 +63,6 @@ const globalErrorHandlers: ErrorRequestHandler = (err, req, res, next) => {
         errorMessages,
         stack: envConfig.env !== 'production' ? err?.stack : undefined,
     });
-
-    next();
 };
 
 export default globalErrorHandlers;

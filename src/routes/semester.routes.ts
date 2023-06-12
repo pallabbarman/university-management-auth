@@ -1,4 +1,5 @@
 import {
+    deleteSemester,
     getAllSemesters,
     getSingleSemester,
     newSemester,
@@ -14,5 +15,6 @@ router.post('/create-semester', validateRequest(semesterValidation), newSemester
 router.get('/:id', getSingleSemester);
 router.get('/', getAllSemesters);
 router.patch('/:id', validateRequest(updateSemesterValidation), updateSemester);
+router.delete('/:id', deleteSemester);
 
 export default router;
