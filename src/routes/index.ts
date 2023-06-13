@@ -1,17 +1,22 @@
 import { Router } from 'express';
-import semesterRouter from './semester.routes';
-import usersRouter from './user.routes';
+import facultyRoutes from './faculty.routes';
+import semesterRoutes from './semester.routes';
+import usersRoutes from './user.routes';
 
 const router = Router();
 
 const moduleRoutes = [
     {
         path: '/users',
-        route: usersRouter,
+        route: usersRoutes,
     },
     {
         path: '/semesters',
-        route: semesterRouter,
+        route: semesterRoutes,
+    },
+    {
+        path: '/faculties',
+        route: facultyRoutes,
     },
 ];
 
