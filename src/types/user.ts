@@ -7,3 +7,11 @@ export interface IUser {
 }
 
 export type UserModel = Model<IUser, Record<string, unknown>>;
+
+// eslint-disable-next-line no-shadow
+export enum USER_ROLE {
+    SUPER_ADMIN = 'super_admin',
+    ADMIN = 'admin',
+    STUDENT = 'student',
+    FACULTY = 'faculty',
+}
