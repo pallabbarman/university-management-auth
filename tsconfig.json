@@ -13,6 +13,7 @@
             "constants/*": ["constants/*"],
             "controllers/*": ["controllers/*"],
             "errors/*": ["errors/*"],
+            "middlewares/*": ["middlewares/*"],
             "models/*": ["models/*"],
             "routes/*": ["routes/*"],
             "services/*": ["services/*"],

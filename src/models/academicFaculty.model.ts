@@ -1,8 +1,8 @@
 /* eslint-disable comma-dangle */
 import { Schema, model } from 'mongoose';
-import { FacultyModel, IFaculty } from 'types/faculty';
+import { AcademicFacultyModel, IAcademicFaculty } from 'types/academicFaculty';
 
-const facultySchema = new Schema<IFaculty>(
+const academicFacultySchema = new Schema<IAcademicFaculty>(
     {
         title: {
             type: String,
@@ -18,6 +18,9 @@ const facultySchema = new Schema<IFaculty>(
     }
 );
 
-const Faculty = model<IFaculty, FacultyModel>('Faculty', facultySchema);
+const AcademicFaculty = model<IAcademicFaculty, AcademicFacultyModel>(
+    'AcademicFaculty',
+    academicFacultySchema
+);
 
-export default Faculty;
+export default AcademicFaculty;

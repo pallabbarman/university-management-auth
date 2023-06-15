@@ -26,7 +26,7 @@ export interface ISemester {
     endMonth: SemesterMonths;
 }
 
-export type SemesterModel = Model<ISemester>;
+export type SemesterModel = Model<ISemester, Record<string, unknown>>;
 
 export type SemesterFilters = {
     searchTerm?: string;

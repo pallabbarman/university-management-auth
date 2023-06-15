@@ -7,7 +7,7 @@ import sendResponse from 'utils/sendResponse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const newUser = catchAsync(async (req: Request, res: Response) => {
-    const { user } = req.body;
+    const { ...user } = req.body;
     const result = await createUser(user);
 
     sendResponse<IUser>(res, {
