@@ -33,7 +33,7 @@ export const logger = createLogger({
             datePattern: 'YYYY-MM-DD-HH',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '14d',
+            maxFiles: '2d',
         }),
     ],
 });
@@ -48,7 +48,7 @@ export const errorLogger = createLogger({
             datePattern: 'YYYY-MM-DD-HH',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '14d',
+            maxFiles: '2d',
         }),
     ],
 });
