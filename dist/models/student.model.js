@@ -24,6 +24,7 @@ const studentSchema = new mongoose_1.Schema({
             },
         },
         required: true,
+        _id: false,
     },
     gender: {
         type: String,
@@ -90,6 +91,7 @@ const studentSchema = new mongoose_1.Schema({
                 required: true,
             },
         },
+        _id: false,
     },
     localGuardian: {
         required: true,
@@ -111,6 +113,7 @@ const studentSchema = new mongoose_1.Schema({
                 required: true,
             },
         },
+        _id: false,
     },
     academicFaculty: {
         type: mongoose_1.Schema.Types.ObjectId,
