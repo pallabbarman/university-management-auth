@@ -1,5 +1,5 @@
 /* eslint-disable comma-dangle */
-import { facultyFilterableFields } from 'constants/academicFaculty';
+import { academicFacultyFilterableFields } from 'constants/academicFaculty';
 import paginationFields from 'constants/pagination';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
@@ -27,7 +27,7 @@ export const createAcademicFaculty = catchAsync(async (req: Request, res: Respon
 });
 
 export const getAllAcademicFaculties = catchAsync(async (req: Request, res: Response) => {
-    const filters = pick(req.query, facultyFilterableFields);
+    const filters = pick(req.query, academicFacultyFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
 
     const result = await allAcademicFaculties(filters, paginationOptions);

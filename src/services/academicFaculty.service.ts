@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
-import { facultySearchableFields } from 'constants/academicFaculty';
+import { academicFacultySearchableFields } from 'constants/academicFaculty';
 import AcademicFaculty from 'models/academicFaculty.model';
 import { SortOrder } from 'mongoose';
 import { IAcademicFaculty, IAcademicFacultyFilters } from 'types/academicFaculty';
@@ -26,7 +26,7 @@ export const allAcademicFaculties = async (
 
     if (searchTerm) {
         andConditions.push({
-            $or: facultySearchableFields.map((field) => ({
+            $or: academicFacultySearchableFields.map((field) => ({
                 [field]: {
                     $regex: searchTerm,
                     $options: 'i',

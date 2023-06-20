@@ -1,10 +1,11 @@
-import { createStudent } from 'controllers/user.controller';
+import { createFaculty, createStudent } from 'controllers/user.controller';
 import { Router } from 'express';
-import { userValidation } from 'middlewares/user.validation';
+import { facultyValidation, userValidation } from 'middlewares/user.validation';
 import validateRequest from 'middlewares/validateRequest';
 
 const router = Router();
 
-router.post('/create-user', validateRequest(userValidation), createStudent);
+router.post('/create-student', validateRequest(userValidation), createStudent);
+router.post('/create-faculty', validateRequest(facultyValidation), createFaculty);
 
 export default router;

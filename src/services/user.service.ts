@@ -4,15 +4,16 @@
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
+import Faculty from 'models/faculty.model';
 import Semester from 'models/semester.model';
 import Student from 'models/student.model';
 import User from 'models/user.model';
 import { startSession } from 'mongoose';
+import { IFaculty } from 'types/faculty';
 import { IStudent } from 'types/students';
 import { IUser, USER_ROLE } from 'types/user';
-import { generateStudentId } from 'utils/user';
+import { generateFacultyId, generateStudentId } from 'utils/user';
 
-// eslint-disable-next-line import/prefer-default-export
 export const createNewStudent = async (student: IStudent, user: IUser): Promise<IUser | null> => {
     if (!user.password) {
         user.password = envConfig.default_student_pass as string;
@@ -63,6 +64,65 @@ export const createNewStudent = async (student: IStudent, user: IUser): Promise<
                 {
                     path: 'semester',
                 },
+                {
+                    path: 'department',
+                },
+                {
+                    path: 'academicFaculty',
+                },
+            ],
+        });
+    }
+
+    return newUserAllData;
+};
+
+export const createNewFaculty = async (faculty: IFaculty, user: IUser): Promise<IUser | null> => {
+    // default password
+    if (!user.password) {
+        user.password = envConfig.default_faculty_pass as string;
+    }
+    // set role
+    user.role = USER_ROLE.FACULTY;
+
+    // generate faculty id
+    let newUserAllData = null;
+    const session = await startSession();
+    try {
+        session.startTransaction();
+
+        const id = await generateFacultyId();
+        user.id = id;
+        faculty.id = id;
+
+        const newFaculty = await Faculty.create([faculty], { session });
+
+        if (!newFaculty.length) {
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty!');
+        }
+
+        user.faculty = newFaculty[0]._id;
+
+        const newUser = await User.create([user], { session });
+
+        if (!newUser.length) {
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty!');
+        }
+
+        newUserAllData = newUser[0];
+
+        await session.commitTransaction();
+        await session.endSession();
+    } catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+        throw error;
+    }
+
+    if (newUserAllData) {
+        newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+            path: 'faculty',
+            populate: [
                 {
                     path: 'department',
                 },
