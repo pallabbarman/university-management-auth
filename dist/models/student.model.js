@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable comma-dangle */
-var student_1 = require("constants/student");
-var mongoose_1 = require("mongoose");
-var studentSchema = new mongoose_1.Schema({
+const student_1 = require("../constants/student");
+const mongoose_1 = require("mongoose");
+const studentSchema = new mongoose_1.Schema({
     id: {
         type: String,
         required: true,
@@ -136,5 +136,5 @@ var studentSchema = new mongoose_1.Schema({
         virtuals: true,
     },
 });
-var Student = (0, mongoose_1.model)('Student', studentSchema);
+const Student = (0, mongoose_1.model)('Student', studentSchema);
 exports.default = Student;

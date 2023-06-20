@@ -7,18 +7,17 @@ exports.errorLogger = exports.logger = void 0;
 /* eslint-disable comma-dangle */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-shadow */
-var path_1 = __importDefault(require("path"));
-var winston_1 = require("winston");
-var winston_daily_rotate_file_1 = __importDefault(require("winston-daily-rotate-file"));
-var combine = winston_1.format.combine, timestamp = winston_1.format.timestamp, label = winston_1.format.label, printf = winston_1.format.printf;
+const path_1 = __importDefault(require("path"));
+const winston_1 = require("winston");
+const winston_daily_rotate_file_1 = __importDefault(require("winston-daily-rotate-file"));
+const { combine, timestamp, label, printf } = winston_1.format;
 // custom logger format
-var myFormat = printf(function (_a) {
-    var level = _a.level, message = _a.message, label = _a.label, timestamp = _a.timestamp;
-    var date = new Date(timestamp);
-    var hour = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    return "".concat(date.toDateString(), " ").concat(hour, ":").concat(minutes, ":").concat(seconds, " [").concat(label, "] ").concat(level, ": ").concat(message);
+const myFormat = printf(({ level, message, label, timestamp }) => {
+    const date = new Date(timestamp);
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${date.toDateString()} ${hour}:${minutes}:${seconds} [${label}] ${level}: ${message}`;
 });
 exports.logger = (0, winston_1.createLogger)({
     level: 'info',

@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var academicFaculty_routes_1 = __importDefault(require("./academicFaculty.routes"));
-var department_routes_1 = __importDefault(require("./department.routes"));
-var semester_routes_1 = __importDefault(require("./semester.routes"));
-var student_routes_1 = __importDefault(require("./student.routes"));
-var user_routes_1 = __importDefault(require("./user.routes"));
-var router = (0, express_1.Router)();
-var moduleRoutes = [
+const express_1 = require("express");
+const academicFaculty_routes_1 = __importDefault(require("./academicFaculty.routes"));
+const department_routes_1 = __importDefault(require("./department.routes"));
+const semester_routes_1 = __importDefault(require("./semester.routes"));
+const student_routes_1 = __importDefault(require("./student.routes"));
+const user_routes_1 = __importDefault(require("./user.routes"));
+const router = (0, express_1.Router)();
+const moduleRoutes = [
     {
         path: '/users',
         route: user_routes_1.default,
@@ -32,5 +32,5 @@ var moduleRoutes = [
         route: student_routes_1.default,
     },
 ];
-moduleRoutes.forEach(function (route) { return router.use(route.path, route.route); });
+moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;

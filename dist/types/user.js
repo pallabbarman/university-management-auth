@@ -8,4 +8,4 @@ var USER_ROLE;
     USER_ROLE["ADMIN"] = "admin";
     USER_ROLE["STUDENT"] = "student";
     USER_ROLE["FACULTY"] = "faculty";
-})(USER_ROLE = exports.USER_ROLE || (exports.USER_ROLE = {}));
+})(USER_ROLE || (exports.USER_ROLE = USER_ROLE = {}));

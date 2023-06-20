@@ -1,17 +1,8 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userValidation = void 0;
-var student_1 = require("constants/student");
-var zod_1 = require("zod");
+const student_1 = require("../constants/student");
+const zod_1 = require("zod");
 // eslint-disable-next-line import/prefer-default-export
 exports.userValidation = zod_1.z.object({
     body: zod_1.z.object({
@@ -26,7 +17,7 @@ exports.userValidation = zod_1.z.object({
                 }),
                 middleName: zod_1.z.string().optional(),
             }),
-            gender: zod_1.z.enum(__spreadArray([], student_1.gender, true), {
+            gender: zod_1.z.enum([...student_1.gender], {
                 required_error: 'Gender is required',
             }),
             dateOfBirth: zod_1.z.string({
@@ -43,7 +34,7 @@ exports.userValidation = zod_1.z.object({
             emergencyContactNo: zod_1.z.string({
                 required_error: 'Emergency contact number is required',
             }),
-            bloodGroup: zod_1.z.enum(__spreadArray([], student_1.bloodGroup, true)).optional(),
+            bloodGroup: zod_1.z.enum([...student_1.bloodGroup]).optional(),
             presentAddress: zod_1.z.string({
                 required_error: 'Present address is required',
             }),

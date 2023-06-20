@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateDepartmentValidation = exports.departmentValidation = void 0;
-var zod_1 = require("zod");
+const zod_1 = require("zod");
 exports.departmentValidation = zod_1.z.object({
     body: zod_1.z.object({
         title: zod_1.z.string({

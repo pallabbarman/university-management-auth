@@ -5,66 +5,66 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-var env_config_1 = __importDefault(require("configs/env.config"));
-var apiError_1 = __importDefault(require("errors/apiError"));
-var handleCastError_1 = __importDefault(require("errors/handleCastError"));
-var handleValidationError_1 = __importDefault(require("errors/handleValidationError"));
-var handleZodError_1 = __importDefault(require("errors/handleZodError"));
-var logger_1 = require("utils/logger");
-var zod_1 = require("zod");
-var globalErrorHandlers = function (err, req, res, next) {
+const env_config_1 = __importDefault(require("../configs/env.config"));
+const apiError_1 = __importDefault(require("../errors/apiError"));
+const handleCastError_1 = __importDefault(require("../errors/handleCastError"));
+const handleValidationError_1 = __importDefault(require("../errors/handleValidationError"));
+const handleZodError_1 = __importDefault(require("../errors/handleZodError"));
+const logger_1 = require("../utils/logger");
+const zod_1 = require("zod");
+const globalErrorHandlers = (err, req, res, next) => {
     env_config_1.default.env === 'development'
         ? console.log('globalErrorHandler ~', err)
         : logger_1.errorLogger.error('globalErrorHandler ~', err);
-    var statusCode = 500;
-    var message = 'Internal server error!';
-    var errorMessages = [];
-    if ((err === null || err === void 0 ? void 0 : err.name) === 'ValidationError') {
-        var error = (0, handleValidationError_1.default)(err);
+    let statusCode = 500;
+    let message = 'Internal server error!';
+    let errorMessages = [];
+    if (err?.name === 'ValidationError') {
+        const error = (0, handleValidationError_1.default)(err);
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
     }
-    else if ((err === null || err === void 0 ? void 0 : err.name) === 'CastError') {
-        var error = (0, handleCastError_1.default)(err);
+    else if (err?.name === 'CastError') {
+        const error = (0, handleCastError_1.default)(err);
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
     }
     else if (err instanceof zod_1.ZodError) {
-        var error = (0, handleZodError_1.default)(err);
+        const error = (0, handleZodError_1.default)(err);
         statusCode = error.statusCode;
         message = error.message;
         errorMessages = error.errorMessage;
     }
     else if (err instanceof apiError_1.default) {
-        statusCode = err === null || err === void 0 ? void 0 : err.statusCode;
-        message = err === null || err === void 0 ? void 0 : err.message;
-        errorMessages = (err === null || err === void 0 ? void 0 : err.message)
+        statusCode = err?.statusCode;
+        message = err?.message;
+        errorMessages = err?.message
             ? [
                 {
                     path: '',
-                    message: err === null || err === void 0 ? void 0 : err.message,
+                    message: err?.message,
                 },
             ]
             : [];
     }
     else if (err instanceof Error) {
-        message = err === null || err === void 0 ? void 0 : err.message;
-        errorMessages = (err === null || err === void 0 ? void 0 : err.message)
+        message = err?.message;
+        errorMessages = err?.message
             ? [
                 {
                     path: '',
-                    message: err === null || err === void 0 ? void 0 : err.message,
+                    message: err?.message,
                 },
             ]
             : [];
     }
     res.status(statusCode).json({
         success: false,
-        message: message,
-        errorMessages: errorMessages,
-        stack: env_config_1.default.env !== 'production' ? err === null || err === void 0 ? void 0 : err.stack : undefined,
+        message,
+        errorMessages,
+        stack: env_config_1.default.env !== 'production' ? err?.stack : undefined,
     });
 };
 exports.default = globalErrorHandlers;
