@@ -1,4 +1,7 @@
+/* eslint-disable func-names */
 /* eslint-disable comma-dangle */
+import { hash } from 'bcrypt';
+import envConfig from 'configs/env.config';
 import { Schema, model } from 'mongoose';
 import { IUser, UserModel } from 'types/user';
 
@@ -37,6 +40,13 @@ const userSchema = new Schema<IUser>(
         },
     }
 );
+
+userSchema.pre('save', async function (next) {
+    // hashing password
+    this.password = await hash(this.password, Number(envConfig.bcrypt_salt_round));
+
+    next();
+});
 
 const User = model<IUser, UserModel>('User', userSchema);
 

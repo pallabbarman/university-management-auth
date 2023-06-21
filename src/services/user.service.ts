@@ -84,6 +84,7 @@ export const createNewFaculty = async (faculty: IFaculty, user: IUser): Promise<
     if (!user.password) {
         user.password = envConfig.default_faculty_pass as string;
     }
+
     // set role
     user.role = USER_ROLE.FACULTY;
 
@@ -145,7 +146,7 @@ export const createNewAdmin = async (admin: IAdmin, user: IUser): Promise<IUser 
     }
 
     // set role
-    user.role = 'admin';
+    user.role = USER_ROLE.ADMIN;
     let newUserAllData = null;
     const session = await startSession();
     try {

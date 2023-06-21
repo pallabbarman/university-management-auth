@@ -125,7 +125,7 @@ const createNewAdmin = async (admin, user) => {
         user.password = env_config_1.default.default_admin_pass;
     }
     // set role
-    user.role = 'admin';
+    user.role = user_1.USER_ROLE.ADMIN;
     let newUserAllData = null;
     const session = await (0, mongoose_1.startSession)();
     try {
