@@ -22,6 +22,16 @@ export const findLastFacultyId = async (): Promise<string | undefined> => {
     return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
 
+export const findLastAdminId = async (): Promise<string | undefined> => {
+    const lastFaculty = await User.findOne({ role: USER_ROLE.ADMIN }, { id: 1, _id: 0 })
+        .sort({
+            createdAt: -1,
+        })
+        .lean();
+
+    return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
+};
+
 export const generateStudentId = async (semester: ISemester | null): Promise<string> => {
     const currentId = (await findLastStudentId()) || (0).toString().padStart(5, '0');
 
@@ -38,6 +48,16 @@ export const generateFacultyId = async (): Promise<string> => {
     let incrementedId = (parseInt(currentId, 10) + 1).toString().padStart(5, '0');
 
     incrementedId = `F-${incrementedId}`;
+
+    return incrementedId;
+};
+
+export const generateAdminId = async (): Promise<string> => {
+    const currentId = (await findLastAdminId()) || (0).toString().padStart(5, '0');
+
+    let incrementedId = (parseInt(currentId, 10) + 1).toString().padStart(5, '0');
+
+    incrementedId = `A-${incrementedId}`;
 
     return incrementedId;
 };

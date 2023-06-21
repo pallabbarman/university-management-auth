@@ -1,28 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
-import { facultySearchableFields } from 'constants/faculty';
+import { adminSearchableFields } from 'constants/admin';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
-import Faculty from 'models/faculty.model';
+import Admin from 'models/admin.model';
 import User from 'models/user.model';
 import { SortOrder, startSession } from 'mongoose';
-import { IFaculty, IFacultyFilters } from 'types/faculty';
+import { IAdmin, IAdminFilters } from 'types/admin';
 import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
 import calculatePagination from 'utils/pagination';
 
-export const allFaculties = async (
-    filters: IFacultyFilters,
+export const allAdmins = async (
+    filters: IAdminFilters,
     paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<IFaculty[]>> => {
+): Promise<IGenericResponse<IAdmin[]>> => {
     const { searchTerm, ...filtersData } = filters;
     const { page, limit, skip, sortBy, sortOrder } = calculatePagination(paginationOptions);
+
     const andConditions = [];
 
     if (searchTerm) {
         andConditions.push({
-            $or: facultySearchableFields.map((field) => ({
+            $or: adminSearchableFields.map((field) => ({
                 [field]: {
                     $regex: searchTerm,
                     $options: 'i',
@@ -46,14 +47,13 @@ export const allFaculties = async (
     }
     const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
 
-    const result = await Faculty.find(whereConditions)
-        .populate('department')
-        .populate('academicFaculty')
+    const result = await Admin.find(whereConditions)
+        .populate('managementDepartment')
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
 
-    const total = await Faculty.countDocuments(whereConditions);
+    const total = await Admin.countDocuments(whereConditions);
 
     return {
         meta: {
@@ -65,61 +65,57 @@ export const allFaculties = async (
     };
 };
 
-export const singleFaculty = async (id: string): Promise<IFaculty | null> => {
-    const result = await Faculty.findOne({ id }).populate('department').populate('academicFaculty');
-
+export const singleAdmin = async (id: string): Promise<IAdmin | null> => {
+    const result = await Admin.findOne({ id }).populate('managementDepartment');
     return result;
 };
 
-export const editFaculty = async (
-    id: string,
-    payload: Partial<IFaculty>
-): Promise<IFaculty | null> => {
-    const isExist = await Faculty.findOne({ id });
+export const editAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin | null> => {
+    const isExist = await Admin.findOne({ id });
 
     if (!isExist) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found!');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found!');
     }
 
-    const { name, ...FacultyData } = payload;
-    const updatedFacultyData: Partial<IFaculty> = { ...FacultyData };
+    const { name, ...adminData } = payload;
+
+    const updatedStudentData: Partial<IAdmin> = { ...adminData };
 
     if (name && Object.keys(name).length > 0) {
         Object.keys(name).forEach((key) => {
-            const nameKey = `name.${key}` as keyof Partial<IFaculty>;
-            (updatedFacultyData as any)[nameKey] = name[key as keyof typeof name];
+            const nameKey = `name.${key}` as keyof Partial<IAdmin>;
+            (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
         });
     }
 
-    const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
+    const result = await Admin.findOneAndUpdate({ id }, updatedStudentData, {
         new: true,
     });
     return result;
 };
 
-export const removeFaculty = async (id: string): Promise<IFaculty | null> => {
-    // check if the faculty is exist
-    const isExist = await Faculty.findOne({ id });
+export const removeAdmin = async (id: string): Promise<IAdmin | null> => {
+    const isExist = await Admin.findOne({ id });
 
     if (!isExist) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
     }
 
     const session = await startSession();
 
     try {
         session.startTransaction();
-        // delete faculty first
-        const faculty = await Faculty.findOneAndDelete({ id }, { session });
-        if (!faculty) {
-            throw new ApiError(404, 'Failed to delete faculty!');
+
+        const admin = await Admin.findOneAndDelete({ id }, { session });
+        if (!admin) {
+            throw new ApiError(404, 'Failed to delete admin');
         }
         // delete user
         await User.deleteOne({ id });
         session.commitTransaction();
         session.endSession();
 
-        return faculty;
+        return admin;
     } catch (error) {
         session.abortTransaction();
         throw error;

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { createNewFaculty, createNewStudent } from 'services/user.service';
+import { createNewAdmin, createNewFaculty, createNewStudent } from 'services/user.service';
 import { IUser } from 'types/user';
 import catchAsync from 'utils/catchAsync';
 import sendResponse from 'utils/sendResponse';
@@ -25,6 +25,18 @@ export const createFaculty = catchAsync(async (req: Request, res: Response) => {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Faculty created successfully!',
+        data: result,
+    });
+});
+
+export const createAdmin = catchAsync(async (req: Request, res: Response) => {
+    const { admin, ...adminData } = req.body;
+    const result = await createNewAdmin(admin, adminData);
+
+    sendResponse<IUser>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Admin created successfully!',
         data: result,
     });
 });

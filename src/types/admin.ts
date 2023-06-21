@@ -1,9 +1,8 @@
 import { Model, Types } from 'mongoose';
-import { IAcademicFaculty } from './academicFaculty';
-import { IDepartment } from './department';
+import { IManagementDepartment } from './managementDepartment';
 import { UserName } from './user';
 
-export type IFaculty = {
+export type IAdmin = {
     id: string;
     name: UserName;
     profileImage: string;
@@ -15,14 +14,13 @@ export type IFaculty = {
     permanentAddress?: string;
     presentAddress?: string;
     bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-    department: Types.ObjectId | IDepartment;
-    academicFaculty: Types.ObjectId | IAcademicFaculty;
+    managementDepartment: Types.ObjectId | IManagementDepartment;
     designation: string;
 };
 
-export type FacultyModel = Model<IFaculty, Record<string, unknown>>;
+export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 
-export type IFacultyFilters = {
+export type IAdminFilters = {
     searchTerm?: string;
     id?: string;
     email?: string;
@@ -30,7 +28,6 @@ export type IFacultyFilters = {
     emergencyContactNo?: string;
     gender?: 'male' | 'female';
     bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-    department?: string;
-    academicFaculty?: string;
+    managementDepartment?: string;
     designation?: string;
 };

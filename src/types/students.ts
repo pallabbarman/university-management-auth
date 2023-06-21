@@ -2,12 +2,7 @@ import { Model, Types } from 'mongoose';
 import { IAcademicFaculty } from './academicFaculty';
 import { IDepartment } from './department';
 import { ISemester } from './semester';
-
-export type UserName = {
-    firstName: string;
-    lastName: string;
-    middleName: string;
-};
+import { UserName } from './user';
 
 export type Guardian = {
     fatherName: string;
