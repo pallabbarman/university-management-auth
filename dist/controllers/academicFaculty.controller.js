@@ -23,7 +23,7 @@ exports.createAcademicFaculty = (0, catchAsync_1.default)(async (req, res) => {
     });
 });
 exports.getAllAcademicFaculties = (0, catchAsync_1.default)(async (req, res) => {
-    const filters = (0, pick_1.default)(req.query, academicFaculty_1.facultyFilterableFields);
+    const filters = (0, pick_1.default)(req.query, academicFaculty_1.academicFacultyFilterableFields);
     const paginationOptions = (0, pick_1.default)(req.query, pagination_1.default);
     const result = await (0, academicFaculty_service_1.allAcademicFaculties)(filters, paginationOptions);
     (0, sendResponse_1.default)(res, {

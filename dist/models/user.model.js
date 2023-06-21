@@ -20,9 +20,9 @@ const userSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Student',
     },
-    academicFaculty: {
+    faculty: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'AcademicFaculty',
+        ref: 'Faculty',
     },
     admin: {
         type: mongoose_1.Schema.Types.ObjectId,

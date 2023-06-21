@@ -5,7 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const academicFaculty_routes_1 = __importDefault(require("./academicFaculty.routes"));
+const admin_routes_1 = __importDefault(require("./admin.routes"));
 const department_routes_1 = __importDefault(require("./department.routes"));
+const faculty_routes_1 = __importDefault(require("./faculty.routes"));
+const managementDepartment_routes_1 = __importDefault(require("./managementDepartment.routes"));
 const semester_routes_1 = __importDefault(require("./semester.routes"));
 const student_routes_1 = __importDefault(require("./student.routes"));
 const user_routes_1 = __importDefault(require("./user.routes"));
@@ -28,8 +31,20 @@ const moduleRoutes = [
         route: department_routes_1.default,
     },
     {
+        path: '/management-departments',
+        route: managementDepartment_routes_1.default,
+    },
+    {
         path: '/students',
         route: student_routes_1.default,
+    },
+    {
+        path: '/faculties',
+        route: faculty_routes_1.default,
+    },
+    {
+        path: '/admins',
+        route: admin_routes_1.default,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
