@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const academicFaculty_routes_1 = __importDefault(require("./academicFaculty.routes"));
 const admin_routes_1 = __importDefault(require("./admin.routes"));
+const auth_routes_1 = __importDefault(require("./auth.routes"));
 const department_routes_1 = __importDefault(require("./department.routes"));
 const faculty_routes_1 = __importDefault(require("./faculty.routes"));
 const managementDepartment_routes_1 = __importDefault(require("./managementDepartment.routes"));
@@ -45,6 +46,10 @@ const moduleRoutes = [
     {
         path: '/admins',
         route: admin_routes_1.default,
+    },
+    {
+        path: '/auth',
+        route: auth_routes_1.default,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

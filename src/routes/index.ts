@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import academicFacultyRoutes from './academicFaculty.routes';
 import adminsRoutes from './admin.routes';
+import auhRoutes from './auth.routes';
 import departmentRoutes from './department.routes';
 import facultiesRoutes from './faculty.routes';
 import managementDepartmentRoutes from './managementDepartment.routes';
@@ -42,6 +43,10 @@ const moduleRoutes = [
     {
         path: '/admins',
         route: adminsRoutes,
+    },
+    {
+        path: '/auth',
+        route: auhRoutes,
     },
 ];
 

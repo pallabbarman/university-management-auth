@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable comma-dangle */
 const bcrypt_1 = require("bcrypt");
@@ -21,6 +22,12 @@ const userSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true,
+        select: 0,
+    },
+    needsChangePassword: {
+        type: Boolean,
+        required: true,
+        default: true,
     },
     student: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -40,8 +47,20 @@ const userSchema = new mongoose_1.Schema({
         virtuals: true,
     },
 });
+userSchema.methods.isUserExist = async function (id) {
+    const user = await User.findOne({ id }, {
+        id: 1,
+        password: 1,
+        role: 1,
+        needsChangePassword: 1,
+    });
+    return user;
+};
+userSchema.methods.isPasswordMatched = async function (givenPassword, savedPassword) {
+    const isMatched = await (0, bcrypt_1.compare)(givenPassword, savedPassword);
+    return isMatched;
+};
 userSchema.pre('save', async function (next) {
-    // hashing password
     this.password = await (0, bcrypt_1.hash)(this.password, Number(env_config_1.default.bcrypt_salt_round));
     next();
 });

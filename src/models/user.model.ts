@@ -1,11 +1,12 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable comma-dangle */
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import envConfig from 'configs/env.config';
 import { Schema, model } from 'mongoose';
-import { IUser, UserModel } from 'types/user';
+import { IUser, IUserMethods, UserModel } from 'types/user';
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, Record<string, never>, IUserMethods>(
     {
         id: {
             type: String,
@@ -19,6 +20,12 @@ const userSchema = new Schema<IUser>(
         password: {
             type: String,
             required: true,
+            select: 0,
+        },
+        needsChangePassword: {
+            type: Boolean,
+            required: true,
+            default: true,
         },
         student: {
             type: Schema.Types.ObjectId,
@@ -41,8 +48,30 @@ const userSchema = new Schema<IUser>(
     }
 );
 
+userSchema.methods.isUserExist = async function (id: string): Promise<Partial<IUser | null>> {
+    const user = await User.findOne(
+        { id },
+        {
+            id: 1,
+            password: 1,
+            role: 1,
+            needsChangePassword: 1,
+        }
+    );
+
+    return user;
+};
+
+userSchema.methods.isPasswordMatched = async function (
+    givenPassword: string,
+    savedPassword: string
+): Promise<boolean> {
+    const isMatched = await compare(givenPassword, savedPassword);
+
+    return isMatched;
+};
+
 userSchema.pre('save', async function (next) {
-    // hashing password
     this.password = await hash(this.password, Number(envConfig.bcrypt_salt_round));
 
     next();
