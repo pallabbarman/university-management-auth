@@ -1,12 +1,11 @@
 /* eslint-disable comma-dangle */
-/* eslint-disable import/prefer-default-export */
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import { Secret } from 'jsonwebtoken';
 import User from 'models/user.model';
-import { ILogin, ILoginUserResponse } from 'types/auth';
-import createToken from 'utils/jwtGenerator';
+import { ILogin, ILoginUserResponse, IRefreshTokenResponse } from 'types/auth';
+import { createToken, verifyToken } from 'utils/jwtGenerator';
 
 export const signInUser = async (payload: ILogin): Promise<ILoginUserResponse> => {
     const { id, password } = payload;
@@ -47,5 +46,38 @@ export const signInUser = async (payload: ILogin): Promise<ILoginUserResponse> =
         accessToken,
         refreshToken,
         needsChangePassword,
+    };
+};
+
+export const reFreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+    // verify token
+    let verifiedToken = null;
+    const user = new User();
+
+    try {
+        verifiedToken = verifyToken(token, envConfig.jwt.refresh_token as Secret);
+    } catch (err) {
+        throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token!');
+    }
+
+    const { userId } = verifiedToken;
+
+    const isUserExist = await user.isUserExist(userId);
+
+    if (!isUserExist) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist!');
+    }
+
+    const newAccessToken = createToken(
+        {
+            id: isUserExist.id,
+            role: isUserExist.role,
+        },
+        envConfig.jwt.secret as Secret,
+        envConfig.jwt.expires_in as string
+    );
+
+    return {
+        accessToken: newAccessToken,
     };
 };
