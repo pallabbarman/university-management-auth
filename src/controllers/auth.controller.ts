@@ -22,7 +22,7 @@ export const loginUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse<ILoginUserResponse>(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'User login successfully',
+        message: 'User login successfully!',
         data: others,
     });
 });
@@ -42,7 +42,7 @@ export const refreshToken = catchAsync(async (req: Request, res: Response) => {
     sendResponse<IRefreshTokenResponse>(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Refresh token generate successfully',
+        message: 'Refresh token generate successfully!',
         data: result,
     });
 });

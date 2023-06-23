@@ -9,4 +9,5 @@ const auth_validation_1 = require("../middlewares/auth.validation");
 const validateRequest_1 = __importDefault(require("../middlewares/validateRequest"));
 const router = (0, express_1.Router)();
 router.post('/login', (0, validateRequest_1.default)(auth_validation_1.loginValidation), auth_controller_1.loginUser);
+router.post('/refresh-token', (0, validateRequest_1.default)(auth_validation_1.refreshTokenValidation), auth_controller_1.refreshToken);
 exports.default = router;

@@ -6,16 +6,6 @@
     "auditLog": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\.7e2c6a376bc38abbb9beebbcf1f0f6bee08a84f0-audit.json",
     "files": [
         {
-            "date": 1687275760281,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-20-21.log",
-            "hash": "1ac388a20cf8cc0c0589df4495ac09085595a7c9d533bfef6cc9ed5f2f4dc131"
-        },
-        {
-            "date": 1687276809534,
-            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-20-22.log",
-            "hash": "dce7cb4238c306bfd374ec42d7a59ca95cbdf887c6c35cb9d04541b4fdb000f8"
-        },
-        {
             "date": 1687362671912,
             "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-21-21.log",
             "hash": "191ba57659584ecb2d8487e38c6836fdac9a84ccdb78a1684debe7f9446985e0"
@@ -24,6 +14,16 @@
             "date": 1687364800299,
             "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-21-22.log",
             "hash": "c362cc829108de89532a3e6a95dd748684ad78c773e45977d652d8dcb8792da5"
+        },
+        {
+            "date": 1687489187574,
+            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-23-08.log",
+            "hash": "579026aa1ec106e790deca71877bf4a9691102ae7174093d34064610cabb3adc"
+        },
+        {
+            "date": 1687489208446,
+            "name": "D:\\Web Development\\Next Level\\University Management\\logs\\winston\\successes\\success-2023-06-23-09.log",
+            "hash": "bf35586e7d38ee4ff099de35a796f4bc0b0aea7cd837c114101edb48a97f4085"
         }
     ],
     "hashType": "sha256"
