@@ -3,10 +3,6 @@
         "editor.formatOnSave": false,
         "editor.defaultFormatter": null
     },
-    "[typescriptreact]": {
-        "editor.formatOnSave": false,
-        "editor.defaultFormatter": null
-    },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {

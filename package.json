@@ -4,7 +4,7 @@
     "description": "This is a university management system.",
     "main": "src/server.ts",
     "scripts": {
-        "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+        "dev": "ts-node-dev -r tsconfig-paths/register --files src/server.ts",
         "start": "node dist/server.js",
         "build": "rimraf dist && npx tsc && npx tsc-alias",
         "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
