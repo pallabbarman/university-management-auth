@@ -5,7 +5,7 @@ export interface IApiResponse<T> {
     success: boolean;
     message?: string | null;
     meta?: IMeta;
-    data: T | null;
+    data?: T | null;
 }
 
 export interface IGenericResponse<T> {

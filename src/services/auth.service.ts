@@ -2,9 +2,10 @@
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
-import { Secret } from 'jsonwebtoken';
+import { JwtPayload, Secret } from 'jsonwebtoken';
 import User from 'models/user.model';
 import { ILogin, ILoginUserResponse, IRefreshTokenResponse } from 'types/auth';
+import { IChangePassword } from 'types/password';
 import { createToken, verifyToken } from 'utils/jwtGenerator';
 
 export const signInUser = async (payload: ILogin): Promise<ILoginUserResponse> => {
@@ -80,4 +81,35 @@ export const reFreshToken = async (token: string): Promise<IRefreshTokenResponse
     return {
         accessToken: newAccessToken,
     };
+};
+
+export const passwordChange = async (
+    userToken: JwtPayload,
+    payload: IChangePassword
+): Promise<void> => {
+    const { oldPassword, newPassword } = payload;
+    const { userId } = userToken;
+    const user = new User();
+    let isPasswordMatched;
+
+    const isUserExist = await User.findOne({ id: userId }).select('+password');
+    if (!isUserExist) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist!');
+    }
+
+    if (isUserExist.password) {
+        isPasswordMatched = await user.isPasswordMatched(oldPassword, isUserExist?.password);
+    }
+
+    if (!isPasswordMatched) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect!');
+    }
+
+    isUserExist.password = newPassword;
+    isUserExist.needsChangePassword = false;
+
+    console.log(isUserExist);
+
+    // updating using save()
+    isUserExist.save();
 };

@@ -27,6 +27,9 @@ const userSchema = new Schema<IUser, Record<string, never>, IUserMethods>(
             required: true,
             default: true,
         },
+        passwordChangedAt: {
+            type: Date,
+        },
         student: {
             type: Schema.Types.ObjectId,
             ref: 'Student',
@@ -73,6 +76,10 @@ userSchema.methods.isPasswordMatched = async function (
 
 userSchema.pre('save', async function (next) {
     this.password = await hash(this.password, Number(envConfig.bcrypt_salt_round));
+
+    if (!this.needsChangePassword) {
+        this.passwordChangedAt = new Date();
+    }
 
     next();
 });
