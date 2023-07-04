@@ -29,7 +29,7 @@ exports.logger = (0, winston_1.createLogger)({
             datePattern: 'YYYY-MM-DD-HH',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '2d',
+            maxFiles: '7d',
         }),
     ],
 });
@@ -43,7 +43,7 @@ exports.errorLogger = (0, winston_1.createLogger)({
             datePattern: 'YYYY-MM-DD-HH',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '2d',
+            maxFiles: '7d',
         }),
     ],
 });

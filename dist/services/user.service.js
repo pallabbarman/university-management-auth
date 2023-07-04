@@ -24,7 +24,7 @@ const createNewStudent = async (student, user) => {
     }
     // set role
     user.role = user_1.USER_ROLE.STUDENT;
-    const semester = await semester_model_1.default.findById(student.semester);
+    const semester = await semester_model_1.default.findById(student.semester).lean();
     // generate student id
     let newUserAllData = null;
     const session = await (0, mongoose_1.startSession)();

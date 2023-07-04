@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reFreshToken = exports.signInUser = void 0;
+exports.passwordChange = exports.reFreshToken = exports.signInUser = void 0;
 /* eslint-disable comma-dangle */
 const env_config_1 = __importDefault(require("../configs/env.config"));
 const apiError_1 = __importDefault(require("../errors/apiError"));
@@ -60,3 +60,25 @@ const reFreshToken = async (token) => {
     };
 };
 exports.reFreshToken = reFreshToken;
+const passwordChange = async (userToken, payload) => {
+    const { oldPassword, newPassword } = payload;
+    const { userId } = userToken;
+    const user = new user_model_1.default();
+    let isPasswordMatched;
+    const isUserExist = await user_model_1.default.findOne({ id: userId }).select('+password');
+    if (!isUserExist) {
+        throw new apiError_1.default(http_status_1.default.NOT_FOUND, 'User does not exist!');
+    }
+    if (isUserExist.password) {
+        isPasswordMatched = await user.isPasswordMatched(oldPassword, isUserExist?.password);
+    }
+    if (!isPasswordMatched) {
+        throw new apiError_1.default(http_status_1.default.UNAUTHORIZED, 'Password is incorrect!');
+    }
+    isUserExist.password = newPassword;
+    isUserExist.needsChangePassword = false;
+    console.log(isUserExist);
+    // updating using save()
+    isUserExist.save();
+};
+exports.passwordChange = passwordChange;

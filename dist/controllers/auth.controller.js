@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.refreshToken = exports.loginUser = void 0;
+exports.changePassword = exports.refreshToken = exports.loginUser = void 0;
 const env_config_1 = __importDefault(require("../configs/env.config"));
 const http_status_1 = __importDefault(require("http-status"));
 const auth_service_1 = require("../services/auth.service");
@@ -40,5 +40,15 @@ exports.refreshToken = (0, catchAsync_1.default)(async (req, res) => {
         success: true,
         message: 'Refresh token generate successfully!',
         data: result,
+    });
+});
+exports.changePassword = (0, catchAsync_1.default)(async (req, res) => {
+    const { user } = req;
+    const { ...passwordData } = req.body;
+    await (0, auth_service_1.passwordChange)(user, passwordData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Password Changed successfully!',
     });
 });

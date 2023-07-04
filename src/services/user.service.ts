@@ -24,7 +24,7 @@ export const createNewStudent = async (student: IStudent, user: IUser): Promise<
     // set role
     user.role = USER_ROLE.STUDENT;
 
-    const semester = await Semester.findById(student.semester);
+    const semester = await Semester.findById(student.semester).lean();
 
     // generate student id
     let newUserAllData = null;

@@ -29,6 +29,9 @@ const userSchema = new mongoose_1.Schema({
         required: true,
         default: true,
     },
+    passwordChangedAt: {
+        type: Date,
+    },
     student: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Student',
@@ -62,6 +65,9 @@ userSchema.methods.isPasswordMatched = async function (givenPassword, savedPassw
 };
 userSchema.pre('save', async function (next) {
     this.password = await (0, bcrypt_1.hash)(this.password, Number(env_config_1.default.bcrypt_salt_round));
+    if (!this.needsChangePassword) {
+        this.passwordChangedAt = new Date();
+    }
     next();
 });
 const User = (0, mongoose_1.model)('User', userSchema);
