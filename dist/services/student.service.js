@@ -12,6 +12,8 @@ const student_1 = require("../constants/student");
 const apiError_1 = __importDefault(require("../errors/apiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const student_model_1 = __importDefault(require("../models/student.model"));
+const user_model_1 = __importDefault(require("../models/user.model"));
+const mongoose_1 = require("mongoose");
 const pagination_1 = __importDefault(require("../utils/pagination"));
 const allStudents = async (filters, paginationOptions) => {
     const { searchTerm, ...filtersData } = filters;
@@ -98,10 +100,27 @@ const editStudent = async (id, payload) => {
 };
 exports.editStudent = editStudent;
 const removeStudent = async (id) => {
-    const result = await student_model_1.default.findByIdAndDelete(id)
-        .populate('semester')
-        .populate('department')
-        .populate('academicFaculty');
-    return result;
+    const isExist = await student_model_1.default.findOne({ id });
+    if (!isExist) {
+        throw new apiError_1.default(http_status_1.default.NOT_FOUND, 'Student not found !');
+    }
+    const session = await (0, mongoose_1.startSession)();
+    try {
+        session.startTransaction();
+        // delete student first
+        const student = await student_model_1.default.findOneAndDelete({ id }, { session });
+        if (!student) {
+            throw new apiError_1.default(404, 'Failed to delete student');
+        }
+        // delete user
+        await user_model_1.default.deleteOne({ id });
+        session.commitTransaction();
+        session.endSession();
+        return student;
+    }
+    catch (error) {
+        session.abortTransaction();
+        throw error;
+    }
 };
 exports.removeStudent = removeStudent;
