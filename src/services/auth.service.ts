@@ -108,8 +108,6 @@ export const passwordChange = async (
     isUserExist.password = newPassword;
     isUserExist.needsChangePassword = false;
 
-    console.log(isUserExist);
-
     // updating using save()
     isUserExist.save();
 };

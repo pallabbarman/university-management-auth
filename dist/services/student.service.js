@@ -110,7 +110,7 @@ const removeStudent = async (id) => {
         // delete student first
         const student = await student_model_1.default.findOneAndDelete({ id }, { session });
         if (!student) {
-            throw new apiError_1.default(404, 'Failed to delete student');
+            throw new apiError_1.default(http_status_1.default.NOT_FOUND, 'Failed to delete student');
         }
         // delete user
         await user_model_1.default.deleteOne({ id });

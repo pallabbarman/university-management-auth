@@ -25,12 +25,12 @@ router.post(
 );
 router.get(
     '/',
-    auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.STUDENT),
+    auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.FACULTY),
     getAllAcademicFaculties
 );
 router.get(
     '/:id',
-    auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.FACULTY, USER_ROLE.STUDENT),
+    auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.FACULTY),
     getSingleAcademicFaculty
 );
 router.patch(
@@ -39,6 +39,6 @@ router.patch(
     auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN, USER_ROLE.FACULTY),
     updateAcademicFaculty
 );
-router.delete('/:id', auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), deleteAcademicFaculty);
+router.delete('/:id', auth(USER_ROLE.SUPER_ADMIN), deleteAcademicFaculty);
 
 export default router;

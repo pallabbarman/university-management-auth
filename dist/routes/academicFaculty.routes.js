@@ -12,8 +12,8 @@ const validateRequest_1 = __importDefault(require("../middlewares/validateReques
 const user_1 = require("../types/user");
 const router = (0, express_1.Router)();
 router.post('/create-faculty', (0, validateRequest_1.default)(academicFaculty_validation_1.academicFacultyValidation), (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN), academicFaculty_controller_1.createAcademicFaculty);
-router.get('/', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.STUDENT), academicFaculty_controller_1.getAllAcademicFaculties);
-router.get('/:id', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.FACULTY, user_1.USER_ROLE.STUDENT), academicFaculty_controller_1.getSingleAcademicFaculty);
+router.get('/', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.FACULTY), academicFaculty_controller_1.getAllAcademicFaculties);
+router.get('/:id', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.FACULTY), academicFaculty_controller_1.getSingleAcademicFaculty);
 router.patch('/:id', (0, validateRequest_1.default)(academicFaculty_validation_1.updateAcademicFacultyValidation), (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.FACULTY), academicFaculty_controller_1.updateAcademicFaculty);
-router.delete('/:id', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN), academicFaculty_controller_1.deleteAcademicFaculty);
+router.delete('/:id', (0, auth_1.default)(user_1.USER_ROLE.SUPER_ADMIN), academicFaculty_controller_1.deleteAcademicFaculty);
 exports.default = router;

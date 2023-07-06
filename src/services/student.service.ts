@@ -131,7 +131,7 @@ export const removeStudent = async (id: string): Promise<IStudent | null> => {
         const student = await Student.findOneAndDelete({ id }, { session });
 
         if (!student) {
-            throw new ApiError(404, 'Failed to delete student');
+            throw new ApiError(httpStatus.NOT_FOUND, 'Failed to delete student');
         }
 
         // delete user
