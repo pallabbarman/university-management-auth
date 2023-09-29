@@ -15,7 +15,7 @@ let server;
 const startServer = async () => {
     await (0, db_config_1.default)();
     server = app_1.default.listen(env_config_1.default.port, () => {
-        logger_1.logger.info(`Server running on port ${env_config_1.default.port || 5000}`);
+        logger_1.logger.info(`Server running on port ${env_config_1.default.port || 5001}`);
     });
     process.on('unhandledRejection', (error) => {
         if (server) {
@@ -30,9 +30,3 @@ const startServer = async () => {
     });
 };
 startServer();
-process.on('SIGTERM', () => {
-    logger_1.logger.info('SIGTERM is received');
-    if (server) {
-        server.close();
-    }
-});

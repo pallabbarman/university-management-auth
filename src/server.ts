@@ -14,7 +14,7 @@ let server: Server;
 const startServer = async () => {
     await connectDB();
     server = app.listen(envConfig.port, () => {
-        logger.info(`Server running on port ${envConfig.port || 5000}`);
+        logger.info(`Server running on port ${envConfig.port || 5001}`);
     });
 
     process.on('unhandledRejection', (error) => {
@@ -30,10 +30,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-process.on('SIGTERM', () => {
-    logger.info('SIGTERM is received');
-    if (server) {
-        server.close();
-    }
-});

@@ -17,7 +17,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // routers
 app.use('/api/v1/', routes_1.default);
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.send('Successfully Running App!');
 });
 // global error handler

@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // routers
 app.use('/api/v1/', routes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
     res.send('Successfully Running App!');
 });
 
