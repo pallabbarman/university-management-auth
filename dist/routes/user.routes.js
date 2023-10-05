@@ -13,5 +13,7 @@ const user_1 = require("../types/user");
 const router = (0, express_1.Router)();
 router.post('/create-student', (0, validateRequest_1.default)(user_validation_1.userValidation), (0, auth_1.default)(user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.ADMIN), user_controller_1.createStudent);
 router.post('/create-faculty', (0, validateRequest_1.default)(user_validation_1.facultyValidation), (0, auth_1.default)(user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.ADMIN), user_controller_1.createFaculty);
-router.post('/create-admin', (0, validateRequest_1.default)(user_validation_1.adminValidation), (0, auth_1.default)(user_1.USER_ROLE.SUPER_ADMIN, user_1.USER_ROLE.ADMIN), user_controller_1.createAdmin);
+router.post('/create-admin', (0, validateRequest_1.default)(user_validation_1.adminValidation), 
+// auth(USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN),
+user_controller_1.createAdmin);
 exports.default = router;

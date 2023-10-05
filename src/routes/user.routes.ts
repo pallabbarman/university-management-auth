@@ -23,7 +23,7 @@ router.post(
 router.post(
     '/create-admin',
     validateRequest(adminValidation),
-    auth(USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN),
+    // auth(USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN),
     createAdmin
 );
 

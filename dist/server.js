@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = require("./utils/logger");
+const redis_1 = __importDefault(require("./utils/redis"));
 const app_1 = __importDefault(require("./app"));
 const db_config_1 = __importDefault(require("./configs/db.config"));
 const env_config_1 = __importDefault(require("./configs/env.config"));
@@ -13,6 +14,7 @@ process.on('uncaughtException', (error) => {
 });
 let server;
 const startServer = async () => {
+    await (0, redis_1.default)();
     await (0, db_config_1.default)();
     server = app_1.default.listen(env_config_1.default.port, () => {
         logger_1.logger.info(`Server running on port ${env_config_1.default.port || 5001}`);

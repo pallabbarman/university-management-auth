@@ -12,7 +12,7 @@ const validateRequest_1 = __importDefault(require("../middlewares/validateReques
 const user_1 = require("../types/user");
 const router = (0, express_1.Router)();
 router.get('/:id', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN), admin_controller_1.getSingleAdmin);
-router.get('/', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN), admin_controller_1.getAllAdmins);
+router.get('/', admin_controller_1.getAllAdmins);
 router.patch('/:id', (0, auth_1.default)(user_1.USER_ROLE.ADMIN, user_1.USER_ROLE.SUPER_ADMIN), (0, validateRequest_1.default)(admin_validation_1.updateAdminValidation), admin_controller_1.updateAdmin);
 router.delete('/:id', (0, auth_1.default)(user_1.USER_ROLE.SUPER_ADMIN), admin_controller_1.deleteAdmin);
 exports.default = router;

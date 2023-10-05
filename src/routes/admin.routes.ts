@@ -14,7 +14,7 @@ import { USER_ROLE } from 'types/user';
 const router = Router();
 
 router.get('/:id', auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), getSingleAdmin);
-router.get('/', auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), getAllAdmins);
+router.get('/', getAllAdmins);
 router.patch(
     '/:id',
     auth(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
