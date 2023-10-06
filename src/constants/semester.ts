@@ -28,3 +28,7 @@ export const semesterTitleCodeMapper: { [key: string]: string } = {
 export const semesterSearchableFields = ['title', 'code', 'year'];
 
 export const semesterFilterableFields = ['searchTerm', 'title', 'code', 'year'];
+
+export const EVENT_SEMESTER_CREATED = 'semester-created';
+export const EVENT_SEMESTER_UPDATED = 'semester-updated';
+export const EVENT_SEMESTER_DELETED = 'semester-deleted';

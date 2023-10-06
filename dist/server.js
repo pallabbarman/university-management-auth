@@ -8,13 +8,16 @@ const redis_1 = __importDefault(require("./utils/redis"));
 const app_1 = __importDefault(require("./app"));
 const db_config_1 = __importDefault(require("./configs/db.config"));
 const env_config_1 = __importDefault(require("./configs/env.config"));
+const events_1 = __importDefault(require("./events"));
 process.on('uncaughtException', (error) => {
     logger_1.errorLogger.error(error);
     process.exit(1);
 });
 let server;
 const startServer = async () => {
-    await (0, redis_1.default)();
+    await (0, redis_1.default)().then(() => {
+        (0, events_1.default)();
+    });
     await (0, db_config_1.default)();
     server = app_1.default.listen(env_config_1.default.port, () => {
         logger_1.logger.info(`Server running on port ${env_config_1.default.port || 5001}`);

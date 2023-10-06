@@ -4,6 +4,7 @@ import redisConnect from 'utils/redis';
 import app from './app';
 import connectDB from './configs/db.config';
 import envConfig from './configs/env.config';
+import subscribeToEvents from './events';
 
 process.on('uncaughtException', (error) => {
     errorLogger.error(error);
@@ -13,7 +14,9 @@ process.on('uncaughtException', (error) => {
 let server: Server;
 
 const startServer = async () => {
-    await redisConnect();
+    await redisConnect().then(() => {
+        subscribeToEvents();
+    });
     await connectDB();
     server = app.listen(envConfig.port, () => {
         logger.info(`Server running on port ${envConfig.port || 5001}`);

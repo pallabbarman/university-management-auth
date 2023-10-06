@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeSemester = exports.editSemester = exports.singleSemester = exports.allSemesters = exports.createSemester = void 0;
+exports.deleteSemesterFromEvent = exports.updateSemesterFromEvent = exports.createSemesterFromEvent = exports.removeSemester = exports.editSemester = exports.singleSemester = exports.allSemesters = exports.createSemester = void 0;
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
 const semester_1 = require("../constants/semester");
@@ -75,3 +75,34 @@ const removeSemester = async (id) => {
     return result;
 };
 exports.removeSemester = removeSemester;
+const createSemesterFromEvent = async (event) => {
+    await semester_model_1.default.create({
+        title: event.title,
+        year: event.year,
+        code: event.code,
+        startMonth: event.startMonth,
+        endMonth: event.endMonth,
+        syncId: event.id,
+    });
+};
+exports.createSemesterFromEvent = createSemesterFromEvent;
+const updateSemesterFromEvent = async (event) => {
+    await semester_model_1.default.findOneAndUpdate({
+        syncId: event.id,
+    }, {
+        $set: {
+            title: event.title,
+            year: event.year,
+            code: event.code,
+            startMonth: event.startMonth,
+            endMonth: event.endMonth,
+        },
+    });
+};
+exports.updateSemesterFromEvent = updateSemesterFromEvent;
+const deleteSemesterFromEvent = async (syncId) => {
+    await semester_model_1.default.findOneAndDelete({
+        syncId,
+    });
+};
+exports.deleteSemesterFromEvent = deleteSemesterFromEvent;

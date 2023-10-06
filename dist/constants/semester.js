@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.semesterFilterableFields = exports.semesterSearchableFields = exports.semesterTitleCodeMapper = exports.semesterMonths = exports.semesterCodes = exports.semesterTitles = void 0;
+exports.EVENT_SEMESTER_DELETED = exports.EVENT_SEMESTER_UPDATED = exports.EVENT_SEMESTER_CREATED = exports.semesterFilterableFields = exports.semesterSearchableFields = exports.semesterTitleCodeMapper = exports.semesterMonths = exports.semesterCodes = exports.semesterTitles = void 0;
 exports.semesterTitles = ['Autumn', 'Summer', 'Fall'];
 exports.semesterCodes = ['01', '02', '03'];
 exports.semesterMonths = [
@@ -24,3 +24,6 @@ exports.semesterTitleCodeMapper = {
 };
 exports.semesterSearchableFields = ['title', 'code', 'year'];
 exports.semesterFilterableFields = ['searchTerm', 'title', 'code', 'year'];
+exports.EVENT_SEMESTER_CREATED = 'semester-created';
+exports.EVENT_SEMESTER_UPDATED = 'semester-updated';
+exports.EVENT_SEMESTER_DELETED = 'semester-deleted';

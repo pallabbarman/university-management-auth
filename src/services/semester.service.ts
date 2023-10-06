@@ -7,7 +7,7 @@ import Semester from 'models/semester.model';
 import { SortOrder } from 'mongoose';
 import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
-import { ISemester, SemesterFilters } from 'types/semester';
+import { ISemester, ISemesterEvents, SemesterFilters } from 'types/semester';
 import calculatePagination from 'utils/pagination';
 
 export const createSemester = async (payload: ISemester): Promise<ISemester> => {
@@ -93,4 +93,38 @@ export const removeSemester = async (id: string): Promise<ISemester | null> => {
     const result = await Semester.findByIdAndDelete(id);
 
     return result;
+};
+
+export const createSemesterFromEvent = async (event: ISemesterEvents): Promise<void> => {
+    await Semester.create({
+        title: event.title,
+        year: event.year,
+        code: event.code,
+        startMonth: event.startMonth,
+        endMonth: event.endMonth,
+        syncId: event.id,
+    });
+};
+
+export const updateSemesterFromEvent = async (event: ISemesterEvents): Promise<void> => {
+    await Semester.findOneAndUpdate(
+        {
+            syncId: event.id,
+        },
+        {
+            $set: {
+                title: event.title,
+                year: event.year,
+                code: event.code,
+                startMonth: event.startMonth,
+                endMonth: event.endMonth,
+            },
+        }
+    );
+};
+
+export const deleteSemesterFromEvent = async (syncId: string): Promise<void> => {
+    await Semester.findOneAndDelete({
+        syncId,
+    });
 };

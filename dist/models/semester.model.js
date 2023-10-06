@@ -17,7 +17,7 @@ const semesterSchema = new mongoose_1.Schema({
         enum: semester_1.semesterTitles,
     },
     year: {
-        type: String,
+        type: Number,
         required: true,
     },
     code: {
@@ -34,6 +34,10 @@ const semesterSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         enum: semester_1.semesterMonths,
+    },
+    syncId: {
+        type: String,
+        required: true,
     },
 }, {
     timestamps: true,
