@@ -8,6 +8,11 @@ const academicFacultySchema = new mongoose_1.Schema({
         required: true,
         unique: true,
     },
+    syncId: {
+        type: String,
+        required: false,
+        unique: true,
+    },
 }, {
     timestamps: true,
     toJSON: {

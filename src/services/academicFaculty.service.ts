@@ -3,7 +3,12 @@
 import { academicFacultySearchableFields } from 'constants/academicFaculty';
 import AcademicFaculty from 'models/academicFaculty.model';
 import { SortOrder } from 'mongoose';
-import { IAcademicFaculty, IAcademicFacultyFilters } from 'types/academicFaculty';
+import {
+    AcademicFacultyCreatedEvent,
+    AcademicFacultyUpdatedEvent,
+    IAcademicFaculty,
+    IAcademicFacultyFilters,
+} from 'types/academicFaculty';
 import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
 import calculatePagination from 'utils/pagination';
@@ -85,4 +90,30 @@ export const editAcademicFaculty = async (
 export const removeAcademicFaculty = async (id: string): Promise<IAcademicFaculty | null> => {
     const result = await AcademicFaculty.findByIdAndDelete(id);
     return result;
+};
+
+export const createAcademicFacultyFromEvent = async (
+    e: AcademicFacultyCreatedEvent
+): Promise<void> => {
+    await AcademicFaculty.create({
+        syncId: e.id,
+        title: e.title,
+    });
+};
+
+export const updateAcademicFacultyFromEvent = async (
+    e: AcademicFacultyUpdatedEvent
+): Promise<void> => {
+    await AcademicFaculty.findOneAndUpdate(
+        { syncId: e.id },
+        {
+            $set: {
+                title: e.title,
+            },
+        }
+    );
+};
+
+export const deleteAcademicFacultyFromEvent = async (syncId: string): Promise<void> => {
+    await AcademicFaculty.findOneAndDelete({ syncId });
 };

@@ -13,6 +13,11 @@ const departmentSchema = new mongoose_1.Schema({
         ref: 'AcademicFaculty',
         required: true,
     },
+    syncId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 }, {
     timestamps: true,
     toJSON: {

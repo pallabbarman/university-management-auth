@@ -17,9 +17,11 @@ const startServer = async () => {
     await redisConnect().then(() => {
         subscribeToEvents();
     });
+
     await connectDB();
+
     server = app.listen(envConfig.port, () => {
-        logger.info(`Server running on port ${envConfig.port || 5001}`);
+        logger.info(`Server running on port ${envConfig.port}`);
     });
 
     process.on('unhandledRejection', (error) => {

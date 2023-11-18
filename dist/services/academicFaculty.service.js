@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeAcademicFaculty = exports.editAcademicFaculty = exports.singleAcademicFaculty = exports.allAcademicFaculties = exports.newAcademicFaculty = void 0;
+exports.deleteAcademicFacultyFromEvent = exports.updateAcademicFacultyFromEvent = exports.createAcademicFacultyFromEvent = exports.removeAcademicFaculty = exports.editAcademicFaculty = exports.singleAcademicFaculty = exports.allAcademicFaculties = exports.newAcademicFaculty = void 0;
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
 const academicFaculty_1 = require("../constants/academicFaculty");
@@ -72,3 +72,22 @@ const removeAcademicFaculty = async (id) => {
     return result;
 };
 exports.removeAcademicFaculty = removeAcademicFaculty;
+const createAcademicFacultyFromEvent = async (e) => {
+    await academicFaculty_model_1.default.create({
+        syncId: e.id,
+        title: e.title,
+    });
+};
+exports.createAcademicFacultyFromEvent = createAcademicFacultyFromEvent;
+const updateAcademicFacultyFromEvent = async (e) => {
+    await academicFaculty_model_1.default.findOneAndUpdate({ syncId: e.id }, {
+        $set: {
+            title: e.title,
+        },
+    });
+};
+exports.updateAcademicFacultyFromEvent = updateAcademicFacultyFromEvent;
+const deleteAcademicFacultyFromEvent = async (syncId) => {
+    await academicFaculty_model_1.default.findOneAndDelete({ syncId });
+};
+exports.deleteAcademicFacultyFromEvent = deleteAcademicFacultyFromEvent;

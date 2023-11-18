@@ -3,10 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeDepartment = exports.editDepartment = exports.singleDepartment = exports.newDepartment = exports.allDepartments = void 0;
-/* eslint-disable comma-dangle */
+exports.deleteDepartmentFromEvent = exports.updateDepartmentFromEvent = exports.createDepartmentFromEvent = exports.removeDepartment = exports.editDepartment = exports.singleDepartment = exports.newDepartment = exports.allDepartments = void 0;
 /* eslint-disable object-curly-newline */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-underscore-dangle */
 const department_1 = require("../constants/department");
+const academicFaculty_model_1 = __importDefault(require("../models/academicFaculty.model"));
 const department_model_1 = __importDefault(require("../models/department.model"));
 const pagination_1 = __importDefault(require("../utils/pagination"));
 const allDepartments = async (filters, paginationOptions) => {
@@ -73,3 +75,26 @@ const removeDepartment = async (id) => {
     return result;
 };
 exports.removeDepartment = removeDepartment;
+const createDepartmentFromEvent = async (e) => {
+    const academicFaculty = await academicFaculty_model_1.default.findOne({ syncId: e.academicFacultyId });
+    const payload = {
+        title: e.title,
+        academicFaculty: academicFaculty?._id,
+        syncId: e.id,
+    };
+    await department_model_1.default.create(payload);
+};
+exports.createDepartmentFromEvent = createDepartmentFromEvent;
+const updateDepartmentFromEvent = async (e) => {
+    const academicFaculty = await academicFaculty_model_1.default.findOne({ syncId: e.academicFacultyId });
+    const payload = {
+        title: e.title,
+        academicFaculty: academicFaculty?._id,
+    };
+    await department_model_1.default.findOneAndUpdate({ syncId: e.id }, { $set: payload });
+};
+exports.updateDepartmentFromEvent = updateDepartmentFromEvent;
+const deleteDepartmentFromEvent = async (syncId) => {
+    await department_model_1.default.findOneAndDelete({ syncId });
+};
+exports.deleteDepartmentFromEvent = deleteDepartmentFromEvent;

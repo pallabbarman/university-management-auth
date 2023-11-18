@@ -1,9 +1,16 @@
-/* eslint-disable comma-dangle */
 /* eslint-disable object-curly-newline */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-underscore-dangle */
 import { departmentSearchableFields } from 'constants/department';
+import AcademicFaculty from 'models/academicFaculty.model';
 import Department from 'models/department.model';
 import { SortOrder } from 'mongoose';
-import { IDepartment, IDepartmentFilters } from 'types/department';
+import {
+    DepartmentCreatedEvent,
+    DepartmentUpdatedEvent,
+    IDepartment,
+    IDepartmentFilters,
+} from 'types/department';
 import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
 import calculatePagination from 'utils/pagination';
@@ -85,4 +92,29 @@ export const editDepartment = async (
 export const removeDepartment = async (id: string): Promise<IDepartment | null> => {
     const result = await Department.findByIdAndDelete(id);
     return result;
+};
+
+export const createDepartmentFromEvent = async (e: DepartmentCreatedEvent): Promise<void> => {
+    const academicFaculty = await AcademicFaculty.findOne({ syncId: e.academicFacultyId });
+    const payload = {
+        title: e.title,
+        academicFaculty: academicFaculty?._id,
+        syncId: e.id,
+    };
+
+    await Department.create(payload);
+};
+
+export const updateDepartmentFromEvent = async (e: DepartmentUpdatedEvent): Promise<void> => {
+    const academicFaculty = await AcademicFaculty.findOne({ syncId: e.academicFacultyId });
+    const payload = {
+        title: e.title,
+        academicFaculty: academicFaculty?._id,
+    };
+
+    await Department.findOneAndUpdate({ syncId: e.id }, { $set: payload });
+};
+
+export const deleteDepartmentFromEvent = async (syncId: string): Promise<void> => {
+    await Department.findOneAndDelete({ syncId });
 };

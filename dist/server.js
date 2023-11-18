@@ -20,7 +20,7 @@ const startServer = async () => {
     });
     await (0, db_config_1.default)();
     server = app_1.default.listen(env_config_1.default.port, () => {
-        logger_1.logger.info(`Server running on port ${env_config_1.default.port || 5001}`);
+        logger_1.logger.info(`Server running on port ${env_config_1.default.port}`);
     });
     process.on('unhandledRejection', (error) => {
         if (server) {
