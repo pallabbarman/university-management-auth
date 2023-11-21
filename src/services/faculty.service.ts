@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
-import { facultySearchableFields } from 'constants/faculty';
+import { EVENT_FACULTY_UPDATED, facultySearchableFields } from 'constants/faculty';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import Faculty from 'models/faculty.model';
@@ -11,7 +11,13 @@ import { IFaculty, IFacultyFilters } from 'types/faculty';
 import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
 import calculatePagination from 'utils/pagination';
+import { RedisClient } from 'utils/redis';
 
+export const singleFaculty = async (id: string): Promise<IFaculty | null> => {
+    const result = await Faculty.findOne({ id }).populate('department').populate('academicFaculty');
+
+    return result;
+};
 export const allFaculties = async (
     filters: IFacultyFilters,
     paginationOptions: IPaginationOptions
@@ -64,13 +70,6 @@ export const allFaculties = async (
         data: result,
     };
 };
-
-export const singleFaculty = async (id: string): Promise<IFaculty | null> => {
-    const result = await Faculty.findOne({ id }).populate('department').populate('academicFaculty');
-
-    return result;
-};
-
 export const editFaculty = async (
     id: string,
     payload: Partial<IFaculty>
@@ -93,7 +92,14 @@ export const editFaculty = async (
 
     const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
         new: true,
-    });
+    })
+        .populate('department')
+        .populate('academicFaculty');
+
+    if (result) {
+        await RedisClient.publish(EVENT_FACULTY_UPDATED, JSON.stringify(result));
+    }
+
     return result;
 };
 

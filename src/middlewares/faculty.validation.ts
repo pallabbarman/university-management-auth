@@ -3,11 +3,13 @@ import { z } from 'zod';
 
 export const updateFacultyValidation = z.object({
     body: z.object({
-        name: z.object({
-            firstName: z.string().optional(),
-            lastName: z.string().optional(),
-            middleName: z.string().optional(),
-        }),
+        name: z
+            .object({
+                firstName: z.string().optional(),
+                lastName: z.string().optional(),
+                middleName: z.string().optional(),
+            })
+            .optional(),
         dateOfBirth: z.string().optional(),
         gender: z.string().optional(),
         bloodGroup: z.string().optional(),
