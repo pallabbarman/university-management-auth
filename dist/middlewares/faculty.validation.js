@@ -5,11 +5,13 @@ exports.updateFacultyValidation = void 0;
 const zod_1 = require("zod");
 exports.updateFacultyValidation = zod_1.z.object({
     body: zod_1.z.object({
-        name: zod_1.z.object({
+        name: zod_1.z
+            .object({
             firstName: zod_1.z.string().optional(),
             lastName: zod_1.z.string().optional(),
             middleName: zod_1.z.string().optional(),
-        }),
+        })
+            .optional(),
         dateOfBirth: zod_1.z.string().optional(),
         gender: zod_1.z.string().optional(),
         bloodGroup: zod_1.z.string().optional(),

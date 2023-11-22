@@ -1,12 +1,18 @@
 /* eslint-disable comma-dangle */
+import { hash } from 'bcrypt';
 import envConfig from 'configs/env.config';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import { JwtPayload, Secret } from 'jsonwebtoken';
+import Admin from 'models/admin.model';
+import Faculty from 'models/faculty.model';
+import Student from 'models/student.model';
 import User from 'models/user.model';
 import { ILogin, ILoginUserResponse, IRefreshTokenResponse } from 'types/auth';
 import { IChangePassword } from 'types/password';
-import { createToken, verifyToken } from 'utils/jwtGenerator';
+import { USER_ROLE } from 'types/user';
+import { createResetToken, createToken, verifyToken } from 'utils/jwtGenerator';
+import sendEmail from 'utils/sendResetMail';
 
 export const signInUser = async (payload: ILogin): Promise<ILoginUserResponse> => {
     const { id, password } = payload;
@@ -110,4 +116,64 @@ export const passwordChange = async (
 
     // updating using save()
     isUserExist.save();
+};
+
+export const forgotPass = async (payload: { id: string }) => {
+    const user = await User.findOne({ id: payload.id }, { id: 1, role: 1 });
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exist!');
+    }
+
+    let profile = null;
+    if (user.role === USER_ROLE.ADMIN) {
+        profile = await Admin.findOne({ id: user.id });
+    } else if (user.role === USER_ROLE.FACULTY) {
+        profile = await Faculty.findOne({ id: user.id });
+    } else if (user.role === USER_ROLE.STUDENT) {
+        profile = await Student.findOne({ id: user.id });
+    }
+
+    if (!profile) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Profile not found!');
+    }
+
+    if (!profile.email) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Email not found!');
+    }
+
+    const passResetToken = await createResetToken(
+        { id: user.id },
+        envConfig.jwt.secret as string,
+        '50m'
+    );
+
+    const resetLink = `${envConfig.resetlink}token=${passResetToken}`;
+
+    console.log('profile: ', profile);
+    await sendEmail(
+        profile.email,
+        `
+        <div>
+          <p>Hi, ${profile.name.firstName}</p>
+          <p>Your password reset link: <a href=${resetLink}>Click Here</a></p>
+          <p>Thank you</p>
+        </div>
+    `
+    );
+};
+
+export const resetPass = async (payload: { id: string; newPassword: string }, token: string) => {
+    const { id, newPassword } = payload;
+    const user = await User.findOne({ id }, { id: 1 });
+
+    if (!user) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'User not found!');
+    }
+
+    await verifyToken(token, envConfig.jwt.secret as string);
+
+    const password = await hash(newPassword, Number(envConfig.bcrypt_salt_round));
+
+    await User.updateOne({ id }, { password });
 };

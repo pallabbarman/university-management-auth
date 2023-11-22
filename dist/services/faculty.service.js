@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeFaculty = exports.editFaculty = exports.singleFaculty = exports.allFaculties = void 0;
+exports.removeFaculty = exports.editFaculty = exports.allFaculties = exports.singleFaculty = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
@@ -14,6 +14,12 @@ const faculty_model_1 = __importDefault(require("../models/faculty.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const mongoose_1 = require("mongoose");
 const pagination_1 = __importDefault(require("../utils/pagination"));
+const redis_1 = require("../utils/redis");
+const singleFaculty = async (id) => {
+    const result = await faculty_model_1.default.findOne({ id }).populate('department').populate('academicFaculty');
+    return result;
+};
+exports.singleFaculty = singleFaculty;
 const allFaculties = async (filters, paginationOptions) => {
     const { searchTerm, ...filtersData } = filters;
     const { page, limit, skip, sortBy, sortOrder } = (0, pagination_1.default)(paginationOptions);
@@ -57,11 +63,6 @@ const allFaculties = async (filters, paginationOptions) => {
     };
 };
 exports.allFaculties = allFaculties;
-const singleFaculty = async (id) => {
-    const result = await faculty_model_1.default.findOne({ id }).populate('department').populate('academicFaculty');
-    return result;
-};
-exports.singleFaculty = singleFaculty;
 const editFaculty = async (id, payload) => {
     const isExist = await faculty_model_1.default.findOne({ id });
     if (!isExist) {
@@ -77,7 +78,12 @@ const editFaculty = async (id, payload) => {
     }
     const result = await faculty_model_1.default.findOneAndUpdate({ id }, updatedFacultyData, {
         new: true,
-    });
+    })
+        .populate('department')
+        .populate('academicFaculty');
+    if (result) {
+        await redis_1.RedisClient.publish(faculty_1.EVENT_FACULTY_UPDATED, JSON.stringify(result));
+    }
     return result;
 };
 exports.editFaculty = editFaculty;

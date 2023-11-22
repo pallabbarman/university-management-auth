@@ -2,7 +2,7 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable comma-dangle */
-import { studentSearchableFields } from 'constants/student';
+import { EVENT_STUDENT_UPDATED, studentSearchableFields } from 'constants/student';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import Student from 'models/student.model';
@@ -12,6 +12,7 @@ import { IPaginationOptions } from 'types/pagination';
 import { IGenericResponse } from 'types/response';
 import { IStudent, IStudentFilters } from 'types/students';
 import calculatePagination from 'utils/pagination';
+import { RedisClient } from 'utils/redis';
 
 export const allStudents = async (
     filters: IStudentFilters,
@@ -112,7 +113,15 @@ export const editStudent = async (
 
     const result = await Student.findOneAndUpdate({ id }, updatedStudentData, {
         new: true,
-    });
+    })
+        .populate('semester')
+        .populate('department')
+        .populate('academicFaculty');
+
+    if (result) {
+        RedisClient.publish(EVENT_STUDENT_UPDATED, JSON.stringify(result));
+    }
+
     return result;
 };
 

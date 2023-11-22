@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 import envConfig from 'configs/env.config';
+import { EVENT_FACULTY_CREATED, EVENT_STUDENT_CREATED } from 'constants/user';
 import ApiError from 'errors/apiError';
 import httpStatus from 'http-status';
 import Admin from 'models/admin.model';
@@ -14,6 +15,7 @@ import { IAdmin } from 'types/admin';
 import { IFaculty } from 'types/faculty';
 import { IStudent } from 'types/students';
 import { IUser, USER_ROLE } from 'types/user';
+import { RedisClient } from 'utils/redis';
 import { generateAdminId, generateFacultyId, generateStudentId } from 'utils/user';
 
 export const createNewStudent = async (student: IStudent, user: IUser): Promise<IUser | null> => {
@@ -76,6 +78,10 @@ export const createNewStudent = async (student: IStudent, user: IUser): Promise<
         });
     }
 
+    if (newUserAllData) {
+        await RedisClient.publish(EVENT_STUDENT_CREATED, JSON.stringify(newUserAllData.student));
+    }
+
     return newUserAllData;
 };
 
@@ -134,6 +140,10 @@ export const createNewFaculty = async (faculty: IFaculty, user: IUser): Promise<
                 },
             ],
         });
+    }
+
+    if (newUserAllData) {
+        await RedisClient.publish(EVENT_FACULTY_CREATED, JSON.stringify(newUserAllData.faculty));
     }
 
     return newUserAllData;

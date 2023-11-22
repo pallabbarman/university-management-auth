@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.facultySearchableFields = exports.facultyFilterableFields = void 0;
+exports.EVENT_FACULTY_UPDATED = exports.facultySearchableFields = exports.facultyFilterableFields = void 0;
 exports.facultyFilterableFields = [
     'searchTerm',
     'id',
@@ -21,3 +21,4 @@ exports.facultySearchableFields = [
     'name.lastName',
     'name.middleName',
 ];
+exports.EVENT_FACULTY_UPDATED = 'faculty-updated';

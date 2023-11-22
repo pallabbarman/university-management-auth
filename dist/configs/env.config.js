@@ -24,4 +24,7 @@ exports.default = {
         url: process.env.REDIS_URL,
         expires_in: process.env.REDIS_TOKEN_EXPIRES_IN,
     },
+    resetlink: process.env.RESET_PASS_UI_LINK,
+    email: process.env.EMAIL,
+    appPass: process.env.APP_PASS,
 };

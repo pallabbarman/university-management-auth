@@ -15,6 +15,7 @@ const student_model_1 = __importDefault(require("../models/student.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const mongoose_1 = require("mongoose");
 const pagination_1 = __importDefault(require("../utils/pagination"));
+const redis_1 = require("../utils/redis");
 const allStudents = async (filters, paginationOptions) => {
     const { searchTerm, ...filtersData } = filters;
     const { page, limit, skip, sortBy, sortOrder } = (0, pagination_1.default)(paginationOptions);
@@ -95,7 +96,13 @@ const editStudent = async (id, payload) => {
     }
     const result = await student_model_1.default.findOneAndUpdate({ id }, updatedStudentData, {
         new: true,
-    });
+    })
+        .populate('semester')
+        .populate('department')
+        .populate('academicFaculty');
+    if (result) {
+        redis_1.RedisClient.publish(student_1.EVENT_STUDENT_UPDATED, JSON.stringify(result));
+    }
     return result;
 };
 exports.editStudent = editStudent;

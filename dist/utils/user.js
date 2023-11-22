@@ -36,7 +36,7 @@ exports.findLastAdminId = findLastAdminId;
 const generateStudentId = async (semester) => {
     const currentId = (await (0, exports.findLastStudentId)()) || (0).toString().padStart(5, '0');
     let incrementedId = (parseInt(currentId, 10) + 1).toString().padStart(5, '0');
-    incrementedId = `${semester?.year.toString().substring(2)}${semester?.code}${incrementedId}`;
+    incrementedId = `${semester?.year}${semester?.code}${incrementedId}`;
     return incrementedId;
 };
 exports.generateStudentId = generateStudentId;

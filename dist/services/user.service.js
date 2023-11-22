@@ -8,6 +8,7 @@ exports.createNewAdmin = exports.createNewFaculty = exports.createNewStudent = v
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 const env_config_1 = __importDefault(require("../configs/env.config"));
+const user_1 = require("../constants/user");
 const apiError_1 = __importDefault(require("../errors/apiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const admin_model_1 = __importDefault(require("../models/admin.model"));
@@ -16,21 +17,22 @@ const semester_model_1 = __importDefault(require("../models/semester.model"));
 const student_model_1 = __importDefault(require("../models/student.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const mongoose_1 = require("mongoose");
-const user_1 = require("../types/user");
-const user_2 = require("../utils/user");
+const user_2 = require("../types/user");
+const redis_1 = require("../utils/redis");
+const user_3 = require("../utils/user");
 const createNewStudent = async (student, user) => {
     if (!user.password) {
         user.password = env_config_1.default.default_student_pass;
     }
     // set role
-    user.role = user_1.USER_ROLE.STUDENT;
+    user.role = user_2.USER_ROLE.STUDENT;
     const semester = await semester_model_1.default.findById(student.semester).lean();
     // generate student id
     let newUserAllData = null;
     const session = await (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
-        const id = await (0, user_2.generateStudentId)(semester);
+        const id = await (0, user_3.generateStudentId)(semester);
         user.id = id;
         student.id = id;
         const newStudent = await student_model_1.default.create([student], { session });
@@ -67,6 +69,9 @@ const createNewStudent = async (student, user) => {
             ],
         });
     }
+    if (newUserAllData) {
+        await redis_1.RedisClient.publish(user_1.EVENT_STUDENT_CREATED, JSON.stringify(newUserAllData.student));
+    }
     return newUserAllData;
 };
 exports.createNewStudent = createNewStudent;
@@ -76,13 +81,13 @@ const createNewFaculty = async (faculty, user) => {
         user.password = env_config_1.default.default_faculty_pass;
     }
     // set role
-    user.role = user_1.USER_ROLE.FACULTY;
+    user.role = user_2.USER_ROLE.FACULTY;
     // generate faculty id
     let newUserAllData = null;
     const session = await (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
-        const id = await (0, user_2.generateFacultyId)();
+        const id = await (0, user_3.generateFacultyId)();
         user.id = id;
         faculty.id = id;
         const newFaculty = await faculty_model_1.default.create([faculty], { session });
@@ -116,6 +121,9 @@ const createNewFaculty = async (faculty, user) => {
             ],
         });
     }
+    if (newUserAllData) {
+        await redis_1.RedisClient.publish(user_1.EVENT_FACULTY_CREATED, JSON.stringify(newUserAllData.faculty));
+    }
     return newUserAllData;
 };
 exports.createNewFaculty = createNewFaculty;
@@ -125,12 +133,12 @@ const createNewAdmin = async (admin, user) => {
         user.password = env_config_1.default.default_admin_pass;
     }
     // set role
-    user.role = user_1.USER_ROLE.ADMIN;
+    user.role = user_2.USER_ROLE.ADMIN;
     let newUserAllData = null;
     const session = await (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
-        const id = await (0, user_2.generateAdminId)();
+        const id = await (0, user_3.generateAdminId)();
         user.id = id;
         admin.id = id;
         const newAdmin = await admin_model_1.default.create([admin], { session });

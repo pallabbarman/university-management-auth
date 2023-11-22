@@ -1,7 +1,13 @@
 import envConfig from 'configs/env.config';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { passwordChange, reFreshToken, signInUser } from 'services/auth.service';
+import {
+    forgotPass,
+    passwordChange,
+    reFreshToken,
+    resetPass,
+    signInUser,
+} from 'services/auth.service';
 import { ILoginUserResponse, IRefreshTokenResponse } from 'types/auth';
 import catchAsync from 'utils/catchAsync';
 import sendResponse from 'utils/sendResponse';
@@ -57,5 +63,26 @@ export const changePassword = catchAsync(async (req: Request, res: Response) => 
         statusCode: httpStatus.OK,
         success: true,
         message: 'Password Changed successfully!',
+    });
+});
+
+export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+    await forgotPass(req.body);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Check your email!',
+    });
+});
+
+export const resetPassword = catchAsync(async (req: Request, res: Response) => {
+    const token = req.headers.authorization || '';
+    await resetPass(req.body, token);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Account recovered!',
     });
 });

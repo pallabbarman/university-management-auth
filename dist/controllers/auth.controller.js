@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changePassword = exports.refreshToken = exports.loginUser = void 0;
+exports.resetPassword = exports.forgotPassword = exports.changePassword = exports.refreshToken = exports.loginUser = void 0;
 const env_config_1 = __importDefault(require("../configs/env.config"));
 const http_status_1 = __importDefault(require("http-status"));
 const auth_service_1 = require("../services/auth.service");
@@ -50,5 +50,22 @@ exports.changePassword = (0, catchAsync_1.default)(async (req, res) => {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'Password Changed successfully!',
+    });
+});
+exports.forgotPassword = (0, catchAsync_1.default)(async (req, res) => {
+    await (0, auth_service_1.forgotPass)(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Check your email!',
+    });
+});
+exports.resetPassword = (0, catchAsync_1.default)(async (req, res) => {
+    const token = req.headers.authorization || '';
+    await (0, auth_service_1.resetPass)(req.body, token);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Account recovered!',
     });
 });
